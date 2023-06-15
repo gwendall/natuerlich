@@ -1,4 +1,4 @@
 - [Home](/)
-- [Getting Start](getting-started.md)
+- [Getting Started](getting-started.md)
 
 - [<br>**🔗 Github**](https://github.com/coconut-xr/natuerlich)
