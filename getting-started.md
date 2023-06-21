@@ -1,6 +1,6 @@
 # Getting Started
 
-In the following tutorials, we will create several WebXR Experiences using **natuerlich** and react-three/fiber. Install the dependencies manually via `npm i @coconut-xr/natuerlich @react-three/fiber react react-dom three` or use the CodeSandbox provided for each example.  **natuerlich** requires three.js 0.0.153 or higher.
+In the following tutorials, we will create several WebXR Experiences using **natuerlich** and react-three/fiber. Install the dependencies manually via `npm i @coconut-xr/natuerlich @react-three/fiber react react-dom three` or use the CodeSandbox provided for each example.  **natuerlich** requires three.js 0.0.153 or higher. When developing locally, make sure you host your code using https, which is required for WebXR sessions.
 
 ## Bare-bones WebXR Experience
 
@@ -8,7 +8,7 @@ To build an immersive experience with **@coconut-xr/natuerlich**, we need to **(
 
 ### **(1)** - enter the immersive session
 
-We create a button that joins an immersive augmented reality session when clicked. This is achieved through the `useEnterXR` hook, which reives the session mode (e.g., immersive-ar) and session options containing required and optional features. In this case, we declare the `"local-floor"` reference space and `"hand-tracking"` as required.
+We create a button that joins an immersive augmented reality session when clicked. This is achieved through the `useEnterXR` hook, which receives the session mode (e.g., immersive-ar) and session options containing required and optional features. In this case, we declare the `"local-floor"` reference space and `"hand-tracking"` as required.
 
 ```tsx
 const sessionOptions: XRSessionInit = { requiredFeatures: ["local-floor", "hand-tracking"] };
@@ -21,6 +21,8 @@ return <button onClick={enterAR}>Enter AR</button>;
 
 WebXR support can be added to the scene via the `<XR/>` component. The component allows configuring WebXR features, such as foveation, frameRate, referenceSpace, and frameBufferScaling via corresponding optional properties.
 
+**TBD: explain exchange event system using xinteraction!!!**
+
 ```tsx
 return (
   <Canvas>
@@ -32,6 +34,8 @@ return (
 ### **(3 - optional)** - control non-immersive and immersive user position
 
 In the third optional step, we take control of the transformation of the non-immersive camera and the origin of the immersive session through the `<NonImmersiveCamera/>` and `<ImmersiveSessionOrigin/>` components. The `<NonImmersiveCamera/˚>` controls the camera transformation when no immersive session is present. The `<ImmersiveSessionOrigin/>` controls the transformation of the user in relation to the scene when in WebXR. Controllers and Hands will be added and configured inside the `<ImmersiveSessionOrigin/>`.
+
+# TODO: write that every hand is rendered seperately
 
 ```tsx
 return <Canvas>
@@ -197,5 +201,10 @@ return (
 ```
 
 ## Layers
+
+TBD
+
+
+## useXR Hook
 
 TBD
