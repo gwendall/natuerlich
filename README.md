@@ -23,7 +23,6 @@ We currently provide bindings to [react-three/fiber](https://github.com/pmndrs/r
 
 <img src="./images/dashboard.gif"  width="250">
 
-
 ## [Documentation](https://coconut-xr.github.io/natuerlich)
 * [Getting Started](https://coconut-xr.github.io/natuerlich/#/getting-started)
 * [Custom Input Devices](https://coconut-xr.github.io/natuerlich/#/custom-input)

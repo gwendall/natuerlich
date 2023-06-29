@@ -188,7 +188,7 @@ TODO: delete old anchor for persisted anchor
 
 ```tsx
 const sessionOptions: XRSessionInit = {
-  requiredFeatures: ["local-floor", "hand-tracking", "anchorss"],
+  requiredFeatures: [..., "anchorss"],
 };
 const enterAR = useEnterXR("immersive-ar", sessionOptions);
 const [anchor, createAnchor] = usePersistedAnchor("anchor-name");
@@ -202,8 +202,47 @@ return (
 
 ## Layers
 
+*Layers can't be used with `<color attach="background"/>`. Use `<Background color map .../>` instead*
+
 TBD
 
+*Layer Portals*
+
+*Koestlich Layers*
+
+## Tracked Planes
+
+## Tracked Images
+
+## Poses
+
+*building on [handy-work](https://github.com/AdaRoseCannon/handy-work)*
+
+```tsx
+
+useHandPoses(
+  hand,
+  inputSource.handedness,
+  (name, prevName) => {
+    const isFist = name === "fist";
+    const wasFist = prevName === "fist";
+    if (isFist == wasFist) {
+      return;
+    }
+    if (isFist) {
+      //fist pose started
+    }
+    if (wasFist) {
+      //fist pose stopped
+    }
+  },
+  {
+    fist: "fist.handpose",
+    relax: "relax.handpose",
+    point: "point.handpose",
+  },
+);
+```
 
 ## useXR Hook
 
