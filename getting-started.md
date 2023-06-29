@@ -218,9 +218,11 @@ TBD
 
 *building on [handy-work](https://github.com/AdaRoseCannon/handy-work)*
 
+The hook returns a function that downloads the current hand poses (left and right) to a binary file, that can be used to match that pose.
+
 ```tsx
 
-useHandPoses(
+const downloadPose = useHandPoses(
   hand,
   inputSource.handedness,
   (name, prevName) => {
