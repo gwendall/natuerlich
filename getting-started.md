@@ -186,6 +186,8 @@ request `"anchors"` feature at start
 
 TODO: delete old anchor for persisted anchor
 
+must be placed inside ImmersiveSessionOrigin if present
+
 ```tsx
 const sessionOptions: XRSessionInit = {
   requiredFeatures: [..., "anchorss"],
@@ -212,7 +214,11 @@ TBD
 
 ## Tracked Planes
 
+must be placed inside ImmersiveSessionOrigin if present
+
 ## Tracked Images
+
+must be placed inside ImmersiveSessionOrigin if present
 
 ## Poses
 
