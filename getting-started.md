@@ -1,6 +1,6 @@
 # Getting Started
 
-In the following tutorials, we will create several WebXR Experiences using **natuerlich** and react-three/fiber. Install the dependencies manually via `npm i @coconut-xr/natuerlich @react-three/fiber react react-dom three` or use the CodeSandbox provided for each example.  **natuerlich** requires three.js 0.0.153 or higher. When developing locally, make sure you host your code using https, which is required for WebXR sessions.
+In the following tutorials, we will create several WebXR Experiences using **natuerlich** and react-three/fiber. Install the dependencies manually via `npm i @coconut-xr/natuerlich @react-three/fiber react react-dom three` or use the CodeSandbox provided for each example.  **natuerlich** requires three.js (*153.0.0 is not supported*) or higher. When developing locally, make sure you host your code using https, which is required for WebXR sessions.
 
 ## Bare-bones WebXR Experience
 
