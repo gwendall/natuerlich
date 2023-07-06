@@ -1,6 +1,6 @@
 # Interaction with Objects
 
-Interactions in **natuerlich** work, like everywhere else in react, through properties, such as `onClick`, on the elements. The interaction is based on [@coconut-xr/xinteraction](https://github.com/coconut-xr/xinteraction). For a more in-depth explanation of the event system and its features, visit the [xinteraction documentation](https://coconut-xr.github.io/xinteraction/#/).
+Interactions in **natuerlich** work through properties, such as `onClick`. The interaction is based on [@coconut-xr/xinteraction](https://github.com/coconut-xr/xinteraction). For a more in-depth explanation of the event system and its features, visit the [xinteraction documentation](https://coconut-xr.github.io/xinteraction/#/).
 
 In the following, we define a box that reacts to the `click` event and increases the box size by 10%. The `useState` hook stores the scale of the box, and each call to `setScale` takes the current state and multiplies it with `1.1`. When using the default `GrabController` and `GrabHand`, the click event will be triggered by grabbing and releasing the box.
 

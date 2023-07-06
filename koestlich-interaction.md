@@ -21,8 +21,7 @@ import { getInputSourceId } from "@coconut-xr/natuerlich";
 import {
   useEnterXR,
   NonImmersiveCamera,
-  ImmersiveSessionOrigin,
-  useInputSources
+  ImmersiveSessionOrigin
 } from "@coconut-xr/natuerlich/react";
 import { useState } from "react";
 
@@ -32,7 +31,6 @@ const sessionOptions: XRSessionInit = {
 
 export default function Index() {
   const enterAR = useEnterXR("immersive-ar", sessionOptions);
-  const inputSources = useInputSources();
   const [blue, setBlue] = useState(false);
 
   return (
@@ -54,22 +52,8 @@ export default function Index() {
         </group>
         <NonImmersiveCamera position={[0, 1.5, 4]} />
         <ImmersiveSessionOrigin position={[0, 0, 4]}>
-          {inputSources.map((inputSource) =>
-            inputSource.hand != null ? (
-              <PointerHand
-                id={getInputSourceId(inputSource)}
-                key={getInputSourceId(inputSource)}
-                inputSource={inputSource}
-                hand={inputSource.hand}
-              />
-            ) : (
-              <PointerController
-                id={getInputSourceId(inputSource)}
-                key={getInputSourceId(inputSource)}
-                inputSource={inputSource}
-              />
-            )
-          )}
+          <Hands type="pointer" />
+          <Pointers type="grab" />
         </ImmersiveSessionOrigin>
       </XRCanvas>
     </div>
@@ -81,6 +65,8 @@ export default function Index() {
 ## Binding as Koestlich UI to the Hand / Controller
 
 Binding an interactive UI to the hands of the users can feel very intuitive. The following example shows how a Koestlich UI can be bound to the wrist.
+
+# TBD: say that the user should read the [Input Sources](./input-sources.md) documentation first.
 
 [CodeSandbox](https://codesandbox.io/s/natuerlich-koestlich-bound-5qz2z8?file=/src/app.tsx)
 

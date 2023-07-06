@@ -16,11 +16,9 @@ As a result, in the following example, users are positioned in front of the red 
 
 [CodeSandbox](https://codesandbox.io/s/natuerlich-barebones-xmdpvq)
 
-_TODO: exchange AR image_
-
-| Without AR                                                             | Inside AR                                                       |
-| ---------------------------------------------------------------------- | --------------------------------------------------------------- |
-| <img src="./barebones-inline.png" alt="barebones-inline" width="75%"/> | <img src="./barebones-ar.png" alt="barebones-ar" width="100%"/> |
+| Without AR                                                             | Inside AR                                                    |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------ |
+| <img src="./barebones-inline.png" alt="barebones-inline" width="75%"/> | <img src="./barebones.gif" alt="barebones-ar" width="100%"/> |
 
 ```tsx
 import { XRCanvas } from "@coconut-xr/natuerlich/defaults";
@@ -95,23 +93,20 @@ export default function Index() {
 
 ## Adding Controllers and Hands
 
-**natuerlich** provides the `useInputSources` hook for adding controller and hand support. Each `inputSource` represents one hand or controller. Developers can map each `inputSource` to a custom hand or controller implementation. **natuerlich** provides high and low-level components that simplify the creation of custom controllers and hands. For instance, the `GrabHand`, `TouchHand`, `Pointerhand`, `GrabController`, and `PointerController` components provide hands and controllers for the most common interaction types and visualizations. If your use case requires different interactions or visualizations, read our [introduction to custom input devices](./custom-input.md) for more information.
+Adding Controllers and Hands can be achieved through the high-level `Hands` and `Controllers` components. Both components take a type, which can be either `"pointer"`, `"grab"`, and `"teleport"`. For `Hands` the type `"touch"` is additionally available.
 
-In the following example, we extend the previous code and add the default `PointerHand`s and `PointerController`s to the scene. Using `inputSources.map`, we map each controller/hand to its implementation. This allows developers to provide different implementations based on the `inputSource.handedness`. We can differentiate between hands and controllers based on the existence of the `hand` property on the `inputSource`.
-
-The following code also shows how to use the maximum available framerate and frameBufferScaling using the `useFramRates` and `useNativeFramebufferScaling` hooks.
-To demonstrate interactivity, we also add a `Grabbable` component around the red cube, which allows grabbing the cube and even scaling it using two hands/controllers.
+In the following example, we extend the previous code by adding `<Hands type="pointer/>` and `<Controllers type="pointer"/>` into the `ImmersiveSessionOrigin`. Furthermore, we sorround the `<mesh>` with a `Grabbable` component allowing the `Hands` and `Controllers` to point at the box, drag it and even resize it with two hands/controllers.
 
 #### Important:
 
 All objects tracked using WebXR, such as the controllers and hands, must be placed inside the `ImmersiveSessionOrigin`.
-For using hands inside a WebXR session, the `"hand-tracking"` feature needs to be requested inside the `sessionOptions`.
-
-_TODO: exchange AR image_
+When using hands inside a WebXR session, the `"hand-tracking"` feature needs to be requested inside the `sessionOptions`.
 
 [CodeSandbox](https://codesandbox.io/s/natuerlich-hands-controllers-wthf4v?file=/src/app.tsx)
 
-![Hands and Controllers](./hand-and-controllers.gif)
+| Without AR                                                             | Inside AR                                                                |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| <img src="./grabbable.gif" alt="barebones-inline" width="600px"/> | <img src="./hand-and-controllers.gif" alt="barebones-ar" width="600px"/> |
 
 ```tsx
 import {
@@ -120,12 +115,10 @@ import {
   PointerController,
   Grabbable
 } from "@coconut-xr/natuerlich/defaults";
-import { getInputSourceId } from "@coconut-xr/natuerlich";
 import {
   useEnterXR,
   NonImmersiveCamera,
-  ImmersiveSessionOrigin,
-  useInputSources
+  ImmersiveSessionOrigin
 } from "@coconut-xr/natuerlich/react";
 
 const sessionOptions: XRSessionInit = {
@@ -134,7 +127,6 @@ const sessionOptions: XRSessionInit = {
 
 export default function Index() {
   const enterAR = useEnterXR("immersive-ar", sessionOptions);
-  const inputSources = useInputSources();
   return (
     <div
       style={{...}}
@@ -149,28 +141,13 @@ export default function Index() {
         </Grabbable>
         <NonImmersiveCamera position={[0, 1.5, 4]} />
         <ImmersiveSessionOrigin position={[0, 0, 4]}>
-          {inputSources.map((inputSource) =>
-            inputSource.hand != null ? (
-              <PointerHand
-                id={getInputSourceId(inputSource)}
-                key={getInputSourceId(inputSource)}
-                inputSource={inputSource}
-                hand={inputSource.hand}
-              />
-            ) : (
-              <PointerController
-                id={getInputSourceId(inputSource)}
-                key={getInputSourceId(inputSource)}
-                inputSource={inputSource}
-              />
-            )
-          )}
+          <Hands type="pointer" />
+          <Pointers type="grab" />
         </ImmersiveSessionOrigin>
       </XRCanvas>
     </div>
   );
 }
-
 ```
 
 ## Next Up
@@ -186,8 +163,13 @@ With this bare-bones setup, you are ready to use all features **natuerlich** has
 - [Anchors](./anchors.md) - spatial anchors using WebXR anchors
 - [Tracked Planes](./planes.md) - tracked room planes using WebXR planes
 - [Tracked Images](./images.md) - image marker tracking using WebXR Image Tracking
-- [Custom Input Devices](./custom-input.md) - building custom interactive hands and controllers
+- [Custom Input Sources](./custom-input-sources.md) - building custom interactive hands and controllers
 - [Use XR](./use-xr.md) - accessing the raw XR state
+
+---
+
+- [All Components](./all-components.md) - API Documentation for all available components
+- [All Hooks](./all-hooks.md) - API Documentation for all available hooks
 
 ---
 

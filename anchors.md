@@ -25,11 +25,9 @@ import {
   NonImmersiveCamera,
   ImmersiveSessionOrigin,
   SpaceGroup,
-  usePersistedAnchor,
-  useInputSources
+  usePersistedAnchor
 } from "@coconut-xr/natuerlich/react";
 import { Quaternion } from "three";
-import { getInputSourceId } from "@coconut-xr/natuerlich";
 
 const sessionOptions: XRSessionInit = {
   requiredFeatures: ["local-floor", "anchors"]
@@ -38,7 +36,6 @@ const sessionOptions: XRSessionInit = {
 export default function Index() {
   const [anchor, createAnchor] = usePersistedAnchor("test-anchor");
   const enterAR = useEnterXR("immersive-ar", sessionOptions);
-  const inputSources = useInputSources();
   return (
     <div
       style={{...}}
@@ -55,24 +52,12 @@ export default function Index() {
               </mesh>
             </SpaceGroup>
           )}
-          {inputSources.map((inputSource) =>
-            inputSource.hand != null ? (
-              <GrabHand
-                id={getInputSourceId(inputSource)}
-                key={getInputSourceId(inputSource)}
-                inputSource={inputSource}
-                hand={inputSource.hand}
-                onClickMissed={(e) => createAnchor(e.point, new Quaternion())}
-              />
-            ) : (
-              <GrabController
-                id={getInputSourceId(inputSource)}
-                key={getInputSourceId(inputSource)}
-                inputSource={inputSource}
-                onClickMissed={(e) => createAnchor(e.point, new Quaternion())}
-              />
-            )
-          )}
+          <Hands type="grab"
+            onPointerDownMissed={(e) => createAnchor(e.point, new Quaternion())}
+          />
+          <Controllers type="grab"
+            onPointerDownMissed={(e) => createAnchor(e.point, new Quaternion())}
+          />
         </ImmersiveSessionOrigin>
       </XRCanvas>
     </div>

@@ -15,31 +15,66 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 
 `npm install @coconut-xr/natuerlich`
 
-[<span style="font-size: 2rem">⤷ Getting Started</span>](https://coconut-xr.github.io/natuerlich/#/getting-started)
+<span style="font-size: 2rem">⤷[ Getting Started](https://coconut-xr.github.io/natuerlich/#/getting-started)</span>
 
 ## Examples
 
 - [Spatial UI]()
+    <img src="./images/spatial-ui.gif"  width="250">
 - [Placing Objects]()
+    <img src="./images/placing-objects.gif"  width="250">
 - [Pressing Buttons]()
+    <img src="./images/pressing-buttons.gif"  width="250">
 - [Steering Wheel]()
-
-<img src="./images/dashboard.gif"  width="250">
+    <img src="./images/steering-wheel.gif"  width="250">
 
 ## [Documentation](https://coconut-xr.github.io/natuerlich)
 
 - [Getting Started](https://coconut-xr.github.io/natuerlich/#/getting-started) - barebones WebXR, Hands, and Controllers
+
+    <img src="./docs/barebones.gif"  width="150">
+
 - [Interaction with Objects](https://coconut-xr.github.io/natuerlich/#/object-interaction) - build interactions with objects
+
+    <img src="./docs/object-draggable.gif"  width="150">
+
 - [Interaction with Koestlich](https://coconut-xr.github.io/natuerlich/#/koestlich-interaction) - build interactive 3D UIs
+
+    <img src="./docs/koestlich-interactable.gif" width="150">
+
 - [Teleport](https://coconut-xr.github.io/natuerlich/#/teleport) - building a teleport interaction
+
+    <img src="./docs/teleport.gif"  width="150">
+
 - [Poses](https://coconut-xr.github.io/natuerlich/#/poses) - detecting and generating hand poses
-- [Guards](https://coconut-xr.github.io/natuerlich/#/guards) - conditional rendering using guards
+
+    <img src="./docs/poses.gif"  width="150">
+
+
 - [Layers](https://coconut-xr.github.io/natuerlich/#/layers) - high quality content using WebXR layers
+
+    <img src="./docs/layer.gif"  width="150">
+
 - [Anchors](https://coconut-xr.github.io/natuerlich/#/anchors) - spatial anchors using WebXR anchors
+
+    <img src="./docs/anchor.gif"  width="150">
+
 - [Tracked Planes](https://coconut-xr.github.io/natuerlich/#/planes) - tracked room planes using WebXR planes
+
+    <img src="./docs/tracked-planes.gif"  width="150">
+
+- [Custom Input Sources](https://coconut-xr.github.io/natuerlich/#/custom-input) - building custom interactive hands and controllers
+
+    <img src="./docs/custom-hand.gif"  width="150">
+
 - [Tracked Images](https://coconut-xr.github.io/natuerlich/#/images) - image marker tracking using WebXR Image Tracking
-- [Custom Input Devices](https://coconut-xr.github.io/natuerlich/#/custom-input) - building custom interactive hands and controllers
+- [Guards](https://coconut-xr.github.io/natuerlich/#/guards) - conditional rendering using guards
 - [Use XR](https://coconut-xr.github.io/natuerlich/#/use-xr) - accessing the raw XR state
+- [Configuration](https://coconut-xr.github.io/natuerlich/#/configuration) - setting frameRate, frameBufferScaling, referenceSpace, and foveation
+---
+
+- [All Components](https://coconut-xr.github.io/natuerlich/#/all-components) - API Documentation for all available components
+- [All Hooks](https://coconut-xr.github.io/natuerlich/#/all-hooks) - API Documentation for all available hooks
 
 ## Ecosystem
 

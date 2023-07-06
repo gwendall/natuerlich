@@ -77,20 +77,18 @@ import {
   useEnterXR,
   NonImmersiveCamera,
   ImmersiveSessionOrigin,
-  CylinderLayerPortal,
-  useInputSources
+  CylinderLayerPortal
 } from "@coconut-xr/natuerlich/react";
 import { useRef } from "react";
 import { Mesh, Vector3 } from "three";
 import { isXIntersection } from "@coconut-xr/xinteraction";
 
 const sessionOptions: XRSessionInit = {
-  requiredFeatures: ["local-floor", "layers"]
+  requiredFeatures: ["local-floor", "hand-tracking", "layers"]
 };
 
 export default function Index() {
   const enterAR = useEnterXR("immersive-ar", sessionOptions);
-  const inputSources = useInputSources();
   return (
     <div
       style={{...}}
@@ -106,22 +104,8 @@ export default function Index() {
         </CylinderLayerPortal>
         <NonImmersiveCamera position={[0, 1.5, 4]} />
         <ImmersiveSessionOrigin position={[0, 0, 4]}>
-          {inputSources.map((inputSource) =>
-            inputSource.hand != null ? (
-              <PointerHand
-                id={getInputSourceId(inputSource)}
-                key={getInputSourceId(inputSource)}
-                inputSource={inputSource}
-                hand={inputSource.hand}
-              />
-            ) : (
-              <PointerController
-                id={getInputSourceId(inputSource)}
-                key={getInputSourceId(inputSource)}
-                inputSource={inputSource}
-              />
-            )
-          )}
+          <Hands type="pointer" />
+          <Pointers type="grab" />
         </ImmersiveSessionOrigin>
       </XRCanvas>
     </div>
