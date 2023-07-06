@@ -9,7 +9,7 @@
 
 _WebXR Interaction for Three.js_
 
-This library builds on [Three.js](https://github.com/mrdoob/three.js) (open-source WebGL library) and [WebXR](https://immersiveweb.dev/) (Web Standard for Augemented and Virtual Reality) to deliver **composeable and extensible interactions for immersive experiences** .
+This library builds on [Three.js](https://github.com/mrdoob/three.js) (open-source WebGL library) and [WebXR](https://immersiveweb.dev/) (Web Standard for Augmented and Virtual Reality) to deliver **composable and extensible interactions for immersive experiences** .
 
 We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three-fiber), enabling a **familiar Developer Experience** for react developers.
 
@@ -19,7 +19,10 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 
 ## Examples
 
-- [TBD]()
+- [Spatial UI]()
+- [Placing Objects]()
+- [Pressing Buttons]()
+- [Steering Wheel]()
 
 <img src="./images/dashboard.gif"  width="250">
 
