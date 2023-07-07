@@ -20,12 +20,19 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 ## Examples
 
 - [Spatial UI]()
+
     <img src="./images/spatial-ui-example.gif"  width="250">
+
 - [Placing Objects]()
+
     <img src="./images/placing-objects.gif"  width="250">
+
 - [Pressing Buttons]()
+
     <img src="./images/pressing-buttons.gif"  width="250">
+
 - [Steering Wheel]()
+
     <img src="./images/steering-wheel.gif"  width="250">
 
 ## [Documentation](https://coconut-xr.github.io/natuerlich)
