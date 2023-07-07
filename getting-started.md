@@ -165,6 +165,7 @@ With this bare-bones setup, you are ready to use all features **natuerlich** has
 - [Tracked Images](./images.md) - image marker tracking using WebXR Image Tracking
 - [Custom Input Sources](./custom-input-sources.md) - building custom interactive hands and controllers
 - [Use XR](./use-xr.md) - accessing the raw XR state
+- [Configuration](./configuration.md) - configurating foveation, frameRate, referenceSpace, and frameBufferScaling
 
 ---
 

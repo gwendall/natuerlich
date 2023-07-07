@@ -70,8 +70,8 @@ The current implementation is inefficient and results in regular lags. The corre
 ```tsx
 import {
   XRCanvas,
-  PointerController,
-  PointerHand
+  Controllers,
+  Hands
 } from "@coconut-xr/natuerlich/defaults";
 import {
   useEnterXR,
@@ -104,8 +104,8 @@ export default function Index() {
         </CylinderLayerPortal>
         <NonImmersiveCamera position={[0, 1.5, 4]} />
         <ImmersiveSessionOrigin position={[0, 0, 4]}>
-          <Hands type="pointer" />
-          <Pointers type="grab" />
+          <Hands />
+          <Controllers />
         </ImmersiveSessionOrigin>
       </XRCanvas>
     </div>

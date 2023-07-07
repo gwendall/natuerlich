@@ -12,6 +12,7 @@
 - [Tracked Images](./images.md)
 - [Custom Input Sources](./custom-input-sources.md)
 - [Use XR](./use-xr.md)
+- [Configuration](./configuration.md)
 
 ---
 

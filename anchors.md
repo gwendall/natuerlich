@@ -17,8 +17,8 @@ The `SpaceGroup` component must be placed inside the `ImmersiveSessionOrigin` if
 ```tsx
 import {
   XRCanvas,
-  GrabController,
-  GrabHand
+  Controllers,
+  Hands
 } from "@coconut-xr/natuerlich/defaults";
 import {
   useEnterXR,

@@ -12,7 +12,7 @@ _For simplicity, the following example does not contain visual effects such as a
 
 [CodeSandbox](https://codesandbox.io/s/natuerlich-fist-grab-hand-75r355?file=/src/app.tsx)
 
-![Screenshot]()
+![Screenshot](./fist-grab-hand.gif)
 
 ```tsx
 export function FistGrabHand({
@@ -70,11 +70,11 @@ We start by rendering the controller model with the correct transformation. We u
 
 Next, we add the ray originating from the `inputSource.targetRaySpace`. We again use a `SpaceGroup` to an `XCurvedPointer` from **xinteraction** and a `Mesh` from **three.js** inside at the `targetRaySpace`. The mesh receives a `RayBasicMaterial`, which fades the mesh out into the z-direction. The `XCurvedPointer` enables the controller to interact. By providing the `points` array to the `XCurvedPointer`, the ray is defined as a line starting from `(0,0,0)` and ending at `(0,0,-0.1)`.
 
-Lastly, we bind the `selectstart` and `selectend` events from the input source to the `press` and `release` events of the `XCurvedPointer`.
+Lastly, we bind the `selectstart` and `selectend` events from the input source to the `press` and `release` events of the `XCurvedPointer` using the `useInputSourceEvent` hook.
 
 [CodeSandbox](https://codesandbox.io/s/natuerlich-short-pointer-controller-xv43wn?file=/src/app.tsx)
 
-![Screenshot]()
+![Screenshot](./short-pointer-controller.gif)
 
 ```tsx
 const rayMaterial = new RayBasicMaterial({

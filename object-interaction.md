@@ -2,9 +2,9 @@
 
 Interactions in **natuerlich** work through properties, such as `onClick`. The interaction is based on [@coconut-xr/xinteraction](https://github.com/coconut-xr/xinteraction). For a more in-depth explanation of the event system and its features, visit the [xinteraction documentation](https://coconut-xr.github.io/xinteraction/#/).
 
-In the following, we define a box that reacts to the `click` event and increases the box size by 10%. The `useState` hook stores the scale of the box, and each call to `setScale` takes the current state and multiplies it with `1.1`. When using the default `GrabController` and `GrabHand`, the click event will be triggered by grabbing and releasing the box.
+In the following, we define a box that reacts to the `click` event and increases the box size by 10%. The `useState` hook stores the scale of the box, and each call to `setScale` takes the current state and multiplies it with `1.1`. When using the default `Controllers` and `Hands` with `type="grab"`, the click event will be triggered by grabbing and releasing the box.
 
-All interactions built with **natuerlich**  work with hands, controllers, and normal mouse and touch controls.
+All interactions built with **natuerlich** work with hands, controllers, and normal mouse and touch controls.
 
 [CodeSandbox](https://codesandbox.io/s/natuerlich-object-interaction-lj9lpj?file=/src/app.tsx)
 
@@ -13,8 +13,8 @@ All interactions built with **natuerlich**  work with hands, controllers, and no
 ```tsx
 import {
   XRCanvas,
-  GrabHand,
-  GrabController
+  Hands,
+  Controllers
 } from "@coconut-xr/natuerlich/defaults";
 import { getInputSourceId } from "@coconut-xr/natuerlich";
 import {
@@ -32,7 +32,7 @@ const sessionOptions: XRSessionInit = {
 export default function Index() {
   const enterAR = useEnterXR("immersive-ar", sessionOptions);
   const inputSources = useInputSources();
-  const [scale, setScale] = useState(1);
+  const [scale, setScale] = useState(0.2);
   return (
     <div
       style={{...}}
@@ -49,7 +49,8 @@ export default function Index() {
         </mesh>
         <NonImmersiveCamera position={[0, 1.5, 4]} />
         <ImmersiveSessionOrigin position={[0, 0, 4]}>
-          {...}
+          <Hands type="grab" />
+          <Controllers type="grab" />
         </ImmersiveSessionOrigin>
       </XRCanvas>
     </div>
@@ -57,6 +58,7 @@ export default function Index() {
 }
 
 ```
+
 Implementing more complex interactions, such as dragging, can be achieved with `setPointerCapture`. Just as in the web, `setPointerCapture` allows to capture events until a button is released, allowing the implementation of a custom drag behavior. For more information, visit the [event capture documentation of xinteraction](https://coconut-xr.github.io/xinteraction/#/event-capture.md). `setPointerCapture` can be used to implement all kinds of interactions ranging from a 2D simple slider to a 3D steering wheel.
 
 In the following code, we use the `onPointerDown` listener to capture the state of the box when it is grabbed and then apply the position offset to the object inside the `onPointerMove` listener.
@@ -144,7 +146,8 @@ export default function Index() {
         </mesh>
         <NonImmersiveCamera position={[0, 1.5, 4]} />
         <ImmersiveSessionOrigin position={[0, 0, 4]}>
-          {...}
+          <Hands type="grab" />
+          <Controllers type="grab" />
         </ImmersiveSessionOrigin>
       </XRCanvas>
     </div>
