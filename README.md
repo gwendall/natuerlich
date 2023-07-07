@@ -5,7 +5,7 @@
 [![Twitter](https://img.shields.io/twitter/follow/coconut_xr?style=flat-square)](https://twitter.com/coconut_xr)
 [![Discord](https://img.shields.io/discord/1087727032240185424?style=flat-square&label=discord)](https://discord.gg/RbyaXJJaJM)
 
-![header image](./images/natuerlich-header.jpg)
+![header image](./images/header.jpg)
 
 _WebXR Interaction for Three.js_
 
@@ -20,7 +20,7 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 ## Examples
 
 - [Spatial UI]()
-    <img src="./images/spatial-ui.gif"  width="250">
+    <img src="./images/spatial-ui-example.gif"  width="250">
 - [Placing Objects]()
     <img src="./images/placing-objects.gif"  width="250">
 - [Pressing Buttons]()
