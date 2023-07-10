@@ -50,7 +50,7 @@ This hook requires a mode (`mode` either inline, immersive-vr, or immersive-ar),
 
 ## `useSessionGrant`
 
-This hook enters the described WebXR session. It requires optional session initialization options `options`.
+This hook enters the described WebXR session when the user navigated to the current site while in a WebXR session. It requires optional session initialization options `options`.
 
 ## `useLayer`
 
@@ -62,24 +62,12 @@ This hook updates the contents and transformation of a layer. It requires a refe
 
 ## `useNativeFramebufferScaling`
 
-This hook provides the native frame buffer scaling.
-
-### Return values:
-
-- A number indicating the native frame buffer scaling, or `undefined` if it can't be determined.
+This hook provides the native frame buffer scaling. It returns a number indicating the native frame buffer scaling, or `undefined` if it can't be determined. The frame buffer scaling can be provided either to the `XRCanvas` or manually to the underyling `XR` component to configure the frame buffer scaling of the session.
 
 ## `useAvailableFrameRates`
 
-This hook provides an array of possible frame rates.
-
-### Return values:
-
-- A `Float32Array` instance representing the available frame rates, or `undefined` if they can't be determined.
+This hook provides an array of possible frame rates. It returns a `Float32Array` instance representing the available frame rates, or `undefined` if they can't be determined. One frame rate from the available frame rates can be provided either to the `XRCanvas` or manually to the underyling `XR` component to configure the frame rate of the session.
 
 ## `useHeighestAvailableFrameRate`
 
-This hook provides the highest available frame rate.
-
-### Return values:
-
-- A number indicating the highest available frame rate, or `undefined` if it can't be determined.
+This hook provides the highest available frame rate. It returns a number indicating the highest available frame rate, or `undefined` if it can't be determined. The heighest frame rate can be provided either to the `XRCanvas` or manually to the underyling `XR` component to set the frame rate of the session to the heighest possible frame rate.

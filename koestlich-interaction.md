@@ -64,9 +64,7 @@ export default function Index() {
 
 ## Binding as Koestlich UI to the Hand / Controller
 
-Binding an interactive UI to the hands of the users can feel very intuitive. The following example shows how a Koestlich UI can be bound to the wrist.
-
-# TBD: say that the user should read the [Input Sources](./input-sources.md) documentation first.
+Binding an interactive UI to the hands of the users can feel very intuitive. The following example shows how a Koestlich UI can be bound to the wrist. The example requires to create  and use custom hands. Therefore, we recommend to read the [Input Sources](./input-sources.md) documentation first.
 
 [CodeSandbox](https://codesandbox.io/s/natuerlich-koestlich-bound-5qz2z8?file=/src/app.tsx)
 

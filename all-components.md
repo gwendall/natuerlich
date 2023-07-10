@@ -1,6 +1,4 @@
-# WebXR Three.js Interaction Components Documentation
-
-This document provides a description of the React components in a library designed for WebXR interaction with Three.js.
+# All Components Documentation
 
 ## XRCanvas
 
@@ -16,7 +14,6 @@ The `XRCanvas` is a fundamental component for setting up a WebXR scene. It accep
 - `onIntersections`: Callback function that is triggered when intersections are detected.
 - `onPointerDownMissed` and `onPointerUpMissed`: Callback functions triggered when pointer down and pointer up events respectively miss any object.
 - `dragDistance`: Determines the drag threshold distance.
-- `children`: Specifies any child elements.
 
 ## Controllers
 
