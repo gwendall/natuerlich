@@ -66,7 +66,7 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 
     <img src="./tracked-planes.gif"  width="150">
 
-- [Custom Input Sources](https://coconut-xr.github.io/natuerlich/#/custom-input) - building custom interactive hands and controllers
+- [Custom Input Sources](https://coconut-xr.github.io/natuerlich/#/custom-input-sources) - building custom interactive hands and controllers
 
     <img src="./fist-grab-hand.gif"  width="150">
 
