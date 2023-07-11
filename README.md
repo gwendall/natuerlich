@@ -19,7 +19,7 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 
 ## Examples
 
-- [Spatial UI](https://codesandbox.io/s/natuerlich-spatual-ui-example-xmdpvq?file=/src/app.tsx)
+- [Spatial UI with Koestlich](https://codesandbox.io/s/natuerlich-spatual-ui-example-xmdpvq?file=/src/app.tsx)
 
     <img src="./images/spatial-ui-example.gif"  width="300">
 

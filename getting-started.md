@@ -14,7 +14,7 @@ In the following example, we additionally use the `NonImmersiveCamera` to contro
 
 As a result, in the following example, users are positioned in front of the red cube regardless of whether they are in AR/VR or not.
 
-[CodeSandbox](https://codesandbox.io/s/natuerlich-barebones-xmdpvq)
+[CodeSandbox](https://codesandbox.io/s/natuerlich-barebones-ddy8m5?file=/src/app.tsx)
 
 | Without AR                                                             | Inside AR                                                    |
 | ---------------------------------------------------------------------- | ------------------------------------------------------------ |
@@ -61,7 +61,7 @@ In addition to adding the `XR`, the event system needs to be overwritten since *
 
 The following code shows how to manually apply, add the `XR` component and exchange the event system.
 
-[CodeSandbox](https://codesandbox.io/s/natuerlich-barebones-manual-dg2q8r)
+[CodeSandbox](https://codesandbox.io/s/natuerlich-barebones-manual-dg2q8r?file=/src/app.tsx)
 
 ```tsx
 import { Canvas } from "@react-three/fiber";
