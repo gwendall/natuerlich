@@ -15,6 +15,11 @@ _For simplicity, the following example does not contain visual effects such as a
 ![Screenshot](./fist-grab-hand.gif)
 
 ```tsx
+import { useRef, Suspense } from "react";
+import { useHandPoses, DynamicHandModel, HandBoneGroup } from "@coconut-xr/natuerlich/react";
+import { InputDeviceFunctions } from "@coconut-xr/xinteraction";
+import { XSphereCollider } from "@coconut-xr/xinteraction/react";
+
 export function FistGrabHand({
   radius,
   hand,
@@ -77,34 +82,31 @@ Lastly, we bind the `selectstart` and `selectend` events from the input source t
 ![Screenshot](./short-pointer-controller.gif)
 
 ```tsx
+import { RayBasicMaterial } from "@coconut-xr/natuerlich/defaults";
+import { useRef, Suspense } from "react";
+import { Mesh, Vector3 } from "three";
+import { XCurvedPointer } from "@coconut-xr/xinteraction/react";
+import { useInputSourceEvent, SpaceGroup } from "@coconut-xr/natuerlich/react";
+import { InputDeviceFunctions } from "@coconut-xr/xinteraction";
+
 const rayMaterial = new RayBasicMaterial({
   transparent: true,
-  toneMapped: false
+  toneMapped: false,
 });
 
 const points = [new Vector3(0, 0, 0), new Vector3(0, 0, -0.1)];
 
 export function ShortPointerController({
   inputSource,
-  id
+  id,
 }: {
   inputSource: XRInputSource;
   id: number;
 }) {
   const pointerRef = useRef<InputDeviceFunctions>(null);
 
-  useInputSourceEvent(
-    "selectstart",
-    inputSource,
-    (e) => pointerRef.current?.press(0, e),
-    []
-  );
-  useInputSourceEvent(
-    "selectend",
-    inputSource,
-    (e) => pointerRef.current?.release(0, e),
-    []
-  );
+  useInputSourceEvent("selectstart", inputSource, (e) => pointerRef.current?.press(0, e), []);
+  useInputSourceEvent("selectend", inputSource, (e) => pointerRef.current?.release(0, e), []);
 
   return (
     <>
