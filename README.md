@@ -66,6 +66,10 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 
     <img src="./tracked-planes.gif"  width="150">
 
+- [Head Up Display](https://coconut-xr.github.io/natuerlich/#/head-up-display) - placing content in front of the user's camera
+
+    <img src="./head-up-display.gif"  width="150">
+
 - [Custom Input Sources](https://coconut-xr.github.io/natuerlich/#/custom-input-sources) - building custom interactive hands and controllers
 
     <img src="./fist-grab-hand.gif"  width="150">

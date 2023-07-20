@@ -1,5 +1,10 @@
 # All Hooks Documentation
 
+## `useSessionSupported`
+
+This hook is used to determine if a xr mode is supported. The hook takes the xr mode (e.g. `immersive-ar`) to request support for as its only parameter and whether the passed xr mode is supported. 
+The hook returns undefined while the request for the mode is not yet resolved.
+
 ## `useAnchor`
 
 This hook is used to create and store anchors. It operates similar to the `useState` React hook. The hook returns a tuple where the first item is the anchor (of type `XRAnchor`) and the second item is a function that can be used to create a new anchor. The function to create a new anchor takes in two arguments: `worldPosition` and `worldRotation`, which are of the `Vector3` and `Quaternion` types respectively. 

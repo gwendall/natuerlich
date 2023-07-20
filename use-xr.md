@@ -22,6 +22,14 @@ return (
 );
 ```
 
+## Exiting a XR Session
+
+The `useXR` hook can be used to exit the current XR session by retrieving the current state with the current session and then calling `end` on the current session.
+
+```tsx
+useXR.getState().session?.end().catch(console.error)
+```
+
 ---
 
 If your questions were not yet answered, visit our [Discord](https://discord.gg/NCYM8ujndE) ;)

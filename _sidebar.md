@@ -10,6 +10,7 @@
 - [Anchors](./anchors.md)
 - [Tracked Planes](./planes.md)
 - [Tracked Images](./images.md)
+- [Head Up Display](./head-up-display.md)
 - [Custom Input Sources](./custom-input-sources.md)
 - [Use XR](./use-xr.md)
 - [Configuration](./configuration.md)

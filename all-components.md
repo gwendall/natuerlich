@@ -83,6 +83,15 @@ The `Grabbable` component is a wrapper that allows its children objects to be in
 
 `VisibilitySessionModeGuard` works similar to `SessionModeGuard`, but rather than controlling the inclusion of content, it controls its visibility based on allowed or denied WebXR session modes.
 
+### SessionSupportedGuard
+
+`SessionSupportedGuard` conditionally renders content based on the support of a WebXR session mode. It accepts the `mode` parameter which specifies the WebXR session mode for which support should be requested.
+
+
+### VisibilitySessionSupportedGuard
+
+`VisibilitySessionSupportedGuard` works similar to `SessionSupportedGuard`, but rather than controlling the inclusion of content, it controls its visibility based on the support of the provided WebXR session mode.
+
 ### CylinderLayer
 
 `CylinderLayer` is a component that forms a partial cylinder for content rendering. The size of the content must be provided initially and should not be changed frequently due to performance considerations. It accepts many properties such as `texture`, `radius`, `centralAngle`, `pixelWidth`, `pixelHeight`, and others. Each property is well-documented within the component code.

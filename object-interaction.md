@@ -155,6 +155,8 @@ export default function Index() {
 }
 ```
 
+*For a more example on more complex interactions including resizing when grabbed by multiple input sources take a look at the [Grabbable Implemenation](https://github.com/coconut-xr/natuerlich/blob/main/src/defaults/grabbable.tsx).*
+
 ---
 
 If your questions were not yet answered, visit our [Discord](https://discord.gg/NCYM8ujndE) ;)
