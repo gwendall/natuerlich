@@ -158,8 +158,8 @@ export default function Index() {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Text color="white">Hello World</Text>
-            <Text color="white">Coconut XR</Text>
+            <Text fontSize={64} color="white">Hello World</Text>
+            <Text fontSize={64} color="white">Coconut XR</Text>
           </Container>
         </KoestlichQuadLayer>
         <NonImmersiveCamera position={[0, 1.5, 4]} />
