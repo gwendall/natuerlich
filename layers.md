@@ -121,7 +121,7 @@ function DragBox() {
 
 When building a layer portal for [koestlich](https://github.com/coconut-xr/koestlich), **natuerlich** also provides the `KoestlichQuadLayer` and `KoestlichCylinderLayer`. Both components allow developers to build a UI directly inside a WebXR Layer without additional configuration. The events propagate automatically inside the layer, as in the previous example.
 
-The following example code contains a simple UI rendering two texts. The layer is configured with a pixel size of 1024x1024. The content inside the layer can be scaled using the `contentScale` parameter. In this case, the size of the content inside the UI has a size of 1x1.
+The following example code contains a simple UI rendering two texts. The layer is configured with a pixel size of 512x512.
 
 [CodeSandbox](https://codesandbox.io/s/natuerlich-koestlich-layer-portal-8gv5n2?file=/src/app.tsx)
 
@@ -149,9 +149,8 @@ export default function Index() {
       <button onClick={enterAR}>Enter AR</button>
       <XRCanvas>
         <KoestlichQuadLayer
-          pixelWidth={1024}
-          pixelHeight={1024}
-          contentScale={1024}
+          pixelWidth={512}
+          pixelHeight={512}
           position={[0, 1.5, 1]}
         >
           <Container

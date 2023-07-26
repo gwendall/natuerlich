@@ -64,7 +64,6 @@ The `Grabbable` component is a wrapper that allows its children objects to be in
 
 - `far`: Maximum rendering distance.
 - `near`: Minimum rendering distance.
-- `contentScale`: Affects the scale of the content.
 - `precision`: Specifies the decimal precision.
 
 ### FacingCameraGuard
