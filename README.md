@@ -92,4 +92,4 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 
 This library is only possible because of the great efforts from the [Immersive Web Community Group and Immersive Web Working Group at the W3C](https://github.com/immersive-web), the [Three.js](https://github.com/mrdoob/three.js) team, and the [react-three-fiber](https://github.com/pmndrs/react-three-fiber) team. This work is inspired by existing libraries, such as [react-xr](https://github.com/pmndrs/react-xr) and [handy-work](https://github.com/AdaRoseCannon/handy-work).
 
-**natuerlich** is funded by [Coconut Captial](https://coconut.capital/)
+**natuerlich** is funded by [Coconut Capital](https://coconut.capital/)
