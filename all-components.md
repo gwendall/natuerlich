@@ -86,10 +86,17 @@ The `Grabbable` component is a wrapper that allows its children objects to be in
 
 `SessionSupportedGuard` conditionally renders content based on the support of a WebXR session mode. It accepts the `mode` parameter which specifies the WebXR session mode for which support should be requested.
 
-
 ### VisibilitySessionSupportedGuard
 
 `VisibilitySessionSupportedGuard` works similar to `SessionSupportedGuard`, but rather than controlling the inclusion of content, it controls its visibility based on the support of the provided WebXR session mode.
+
+### FocusStateGuard
+
+`FocusStateGuard` conditionally renders content based on focus state of session. It renders its children if the focus state is visible or no session is present.
+
+### VisibilityFocusStateGuard
+
+`VisibilityFocusStateGuard` works similar to `FocusStateGuard`, but rather than controlling the inclusion of content, it controls its visibility based on the current focus state.
 
 ### CylinderLayer
 
