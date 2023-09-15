@@ -33,6 +33,10 @@ This hook can be used to attach event listeners to input sources. It accepts the
 
 This hook returns an array of currently active input sources of type `XRInputSource`.
 
+## `useInputSourceProfile`
+
+This hook returns the controller profile information based on the available input source profiles (use `useInputSourceProfile(inputSource.profiles)`).
+
 ## `useInitRoomCapture`
 
 This hook returns a function that triggers room setup for WebXR tracked planes.
