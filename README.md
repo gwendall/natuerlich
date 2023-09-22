@@ -23,7 +23,7 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 
 `npm install @coconut-xr/natuerlich`
 
-## Check out the [Getting Started](./getting-started)
+## Check out the [Getting Started](/getting-started)
 
 ## Examples
 
@@ -39,7 +39,7 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 
     <Image img={require(`@site/static/images/rag-doll.gif`)} style={{width: "30%"}}/>
 
-## [Documentation](https://coconut-xr.github.io/natuerlich)
+## [Documentation](/)
 
 - <a href="/getting-started">Getting Started - barebones WebXR, Hands, and Controllers<br></br><Image img={require(`@site/static/images/barebones.gif`)} style={{width: "35%"}}/></a>
 
@@ -73,7 +73,7 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 
 - <a href="/all-components">All Components - API Documentation for all available components</a>
 
-- <a href="/configuration">All Hooks - API Documentation for all available hooks</a>
+- <a href="/all-hooks">All Hooks - API Documentation for all available hooks</a>
 
 ## Acknowledgements
 
