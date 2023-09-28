@@ -27,47 +27,33 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 
 ## Examples
 
-- [Spatial UI with Koestlich](https://codesandbox.io/s/natuerlich-spatual-ui-example-xmdpvq?file=/src/app.tsx)
+| Name| Preview|
+| - | - |
+| <a href="https://codesandbox.io/s/natuerlich-spatual-ui-example-xmdpvq?file=/src/app.tsx">Spatial UI with Koestlich</a>      | <a href="https://codesandbox.io/s/natuerlich-spatual-ui-example-xmdpvq?file=/src/app.tsx"><Image img={require(`@site/static/images/spatial-ui-example.gif`)} style={{width: "100%"}}/></a>                       |
+| <a href="https://codesandbox.io/s/natuerlich-placing-objects-3q74pk?file=/src/app.tsx">Placing Objects </a> - 3D Models from [Quaternius](https://quaternius.com/)| <a href="https://codesandbox.io/s/natuerlich-placing-objects-3q74pk?file=/src/app.tsx"><Image img={require(`@site/static/images/placing-objects.gif`)} style={{width: "100%"}}/></a>                           |
+| <a href="https://codesandbox.io/s/natuerlich-ragdoll-physics-j2q7mc?file=/src/App.js">Rag Doll Physics </a> - based on [R3F Example](https://codesandbox.io/s/wdzv4)      | <a href="https://codesandbox.io/s/natuerlich-ragdoll-physics-j2q7mc?file=/src/App.js"><Image img={require(`@site/static/images/rag-doll.gif`)} style={{width: "100%"}}/></a>                                 |
+| <a href="https://coconut-xr.github.io/auto/">Auto Demo - VR Drift Racing</a>| |
+| <a href="https://coconut-xr.github.io/klettern/">Klettern Demo - VR Climbing</a>| |
 
-    <Image img={require(`@site/static/images/spatial-ui-example.gif`)} style={{width: "35%"}}/>
-
-- [Placing Objects](https://codesandbox.io/s/natuerlich-placing-objects-3q74pk?file=/src/app.tsx) - 3D Models from [Quaternius](https://quaternius.com/)
-
-    <Image img={require(`@site/static/images/placing-objects.gif`)} style={{width: "30%"}}/>
-
-- [Rag Doll Physics](https://codesandbox.io/s/natuerlich-ragdoll-physics-j2q7mc?file=/src/App.js) - based on [R3F Example](https://codesandbox.io/s/wdzv4)
-
-    <Image img={require(`@site/static/images/rag-doll.gif`)} style={{width: "30%"}}/>
 
 ## [Documentation](/)
 
-- <a href="/getting-started">Getting Started - barebones WebXR, Hands, and Controllers<br></br><Image img={require(`@site/static/images/barebones.gif`)} style={{width: "35%"}}/></a>
-
-- <a href="/object-interaction">Interaction with Objects - build interactions with objects<br></br><Image img={require(`@site/static/images/object-draggable.gif`)} style={{width: "35%"}}/></a>
-
-- <a href="/koestlich-interaction">Interaction with Koestlich - build interactive 3D UIs<br></br><Image img={require(`@site/static/images/koestlich-interactable.gif`)} style={{width: "35%"}}/></a>
-
-- <a href="/teleport">Teleport - building a teleport interaction<br></br><Image img={require(`@site/static/images/teleport.gif`)} style={{width: "35%"}}/></a>
-
-- <a href="/poses">Poses - detecting and generating hand poses<br></br><Image img={require(`@site/static/images/poses.gif`)} style={{width: "35%"}}/></a>
-
-- <a href="/layers">Layers - high quality content using WebXR layers<br></br><Image img={require(`@site/static/images/layer.gif`)} style={{width: "35%"}}/></a>
-
-- <a href="/anchors">Anchors - spatial anchors using WebXR anchors<br></br><Image img={require(`@site/static/images/anchor.gif`)} style={{width: "35%"}}/></a>
-
-- <a href="/tracked-planes">Tracked Planes - tracked room planes using WebXR planes<br></br><Image img={require(`@site/static/images/tracked-planes.gif`)} style={{width: "35%"}}/></a>
-
-- <a href="/head-up-display">Head Up Display - placing content in front of the user's camera<br></br><Image img={require(`@site/static/images/head-up-display.gif`)} style={{width: "35%"}}/></a>
-
-- <a href="/custom-input-sources">Custom Input Sources - building custom interactive hands and controllers<br></br><Image img={require(`@site/static/images/fist-grab-hand.gif`)} style={{width: "35%"}}/></a>
-
-- <a href="/images">Tracked Images - image marker tracking using WebXR Image Tracking</a>
-
-- <a href="/guards">Guards - conditional rendering using guards</a>
-
-- <a href="/use-xr">Use XR - accessing the raw XR state</a>
-
-- <a href="/configuration">Configuration - configurating foveation, frameRate, referenceSpace, and frameBufferScaling</a>
+| Documentation| Preview|
+| - | - |
+| <a href="/getting-started">Getting Started - barebones WebXR, Hands, and Controllers</a> | <a href="/getting-started"><Image img={require(`@site/static/images/barebones.gif`)} style={{width: "100%"}}/></a>                               |
+| <a href="/object-interaction">Interaction with Objects - build interactions with objects</a> | <a href="/object-interaction"><Image img={require(`@site/static/images/object-draggable.gif`)} style={{width: "100%"}}/></a>                          |
+| <a href="/koestlich-interaction">Interaction with Koestlich - build interactive 3D UIs</a> | <a href="/koestlich-interaction"><Image img={require(`@site/static/images/koestlich-interactable.gif`)} style={{width: "100%"}}/></a>                 |
+| <a href="/teleport">Teleport - building a teleport interaction</a>               | <a href="/teleport"><Image img={require(`@site/static/images/teleport.gif`)} style={{width: "100%"}}/></a>                                |
+| <a href="/poses">Poses - detecting and generating hand poses</a>               | <a href="/poses"><Image img={require(`@site/static/images/poses.gif`)} style={{width: "100%"}}/></a>                                |
+| <a href="/layers">Layers - high quality content using WebXR layers</a>         | <a href="/layers"><Image img={require(`@site/static/images/layer.gif`)} style={{width: "100%"}}/></a>                                   |
+| <a href="/anchors">Anchors - spatial anchors using WebXR anchors</a>            | <a href="/anchors"><Image img={require(`@site/static/images/anchor.gif`)} style={{width: "100%"}}/></a>                                |
+| <a href="/tracked-planes">Tracked Planes - tracked room planes using WebXR planes</a>   | <a href="/tracked-planes"><Image img={require(`@site/static/images/tracked-planes.gif`)} style={{width: "100%"}}/></a>                          |
+| <a href="/head-up-display">Head Up Display - placing content in front of the user's camera</a> | <a href="/head-up-display"><Image img={require(`@site/static/images/head-up-display.gif`)} style={{width: "100%"}}/></a>|
+| <a href="/custom-input-sources">Custom Input Sources - building custom interactive hands and controllers</a> | <a href="/custom-input-sources"><Image img={require(`@site/static/images/fist-grab-hand.gif`)} style={{width: "100%"}}/></a>|
+| <a href="/images"> Tracked Images - image marker tracking using WebXR Image Tracking </a>| N/A|
+| <a href="/guards">Guards - conditional rendering using guards </a>| N/A|
+| <a href="/use-xr"> Use XR - accessing the raw XR state </a>| N/A|
+| <a href="/configuration">Configuration - configuring foveation, frameRate, referenceSpace, and frameBufferScaling </a>| N/A|
 
 ---
 
