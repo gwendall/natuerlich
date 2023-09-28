@@ -1,4 +1,4 @@
-import { CodesandboxEmbed } from './codesandboxEmbed.tsx'
+import { CodesandboxEmbed } from './CodesandboxEmbed.tsx'
 
 # Guards
 
