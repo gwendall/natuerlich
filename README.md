@@ -31,10 +31,10 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 | --- | --- | 
 | <a href="https://codesandbox.io/s/natuerlich-spatual-ui-example-xmdpvq?file=/src/app.tsx">Spatial UI with Koestlich</a> | <a href="https://codesandbox.io/s/natuerlich-placing-objects-3q74pk?file=/src/app.tsx">Placing Objects </a> - 3D Models from [Quaternius](https://quaternius.com/) |
 | <a href="https://codesandbox.io/s/natuerlich-spatual-ui-example-xmdpvq?file=/src/app.tsx"><Image img={require(`@site/static/images/spatial-ui-example.gif`)} style={{width: "100%"}}/></a>| <a href="https://codesandbox.io/s/natuerlich-placing-objects-3q74pk?file=/src/app.tsx"><Image img={require(`@site/static/images/placing-objects.gif`)} style={{width: "100%"}}/></a>  |
-| <a href="https://codesandbox.io/s/natuerlich-ragdoll-physics-j2q7mc?file=/src/App.js">Rag Doll Physics </a> - based on [R3F Example](https://codesandbox.io/s/wdzv4) |<a href="https://coconut-xr.github.io/auto/">Auto Demo - VR Drift Racing</a> |
-| <a href="https://codesandbox.io/s/natuerlich-ragdoll-physics-j2q7mc?file=/src/App.js"><Image img={require(`@site/static/images/rag-doll.gif`)} style={{width: "100%"}}/></a>|  |
+| <a href="https://codesandbox.io/s/natuerlich-ragdoll-physics-j2q7mc?file=/src/App.js">Rag Doll Physics </a> - based on [R3F Example](https://codesandbox.io/s/wdzv4) | <a href="https://coconut-xr.github.io/auto/">Auto Demo - VR Drift Racing</a> |
+| <a href="https://codesandbox.io/s/natuerlich-ragdoll-physics-j2q7mc?file=/src/App.js"><Image img={require(`@site/static/images/rag-doll.gif`)} style={{width: "100%"}}/></a>| <a href="https://coconut-xr.github.io/auto/"><Image img={require(`@site/static/images/car.gif`)} style={{width: "100%"}}/></a> |
 | <a href="https://coconut-xr.github.io/klettern/">Klettern Demo - VR Climbing</a> |
-| |
+| <a href="https://coconut-xr.github.io/klettern/"><Image img={require(`@site/static/images/klettern.gif`)} style={{width: "100%"}}/></a>|
 
 ## [Documentation](/)
 
