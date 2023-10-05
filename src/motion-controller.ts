@@ -25,28 +25,38 @@ export type XRInputSourceData = Readonly<{
   handedness: string;
 }>;
 
+export type ControllerComponent = {
+  type: "trigger" | "squeeze" | "touchpad" | "thumbstick" | "button" | string;
+  gamepadIndices: {
+    [Key in string | "button" | "xAxis" | "yAxis"]?: number;
+  };
+  rootNodeName: string;
+  visualResponses: any;
+};
+
+export type ControllerLayout = {
+  selectComponentId: string;
+  components: {
+    [Key in string]: ControllerComponent;
+  };
+  gamepadMapping: string;
+  rootNodeName: string;
+  assetPath: string;
+};
+
 export type ControllerProfile = {
   profileId: string;
   fallbackProfileIds: Array<string>;
   deprecatedProfileIds?: Array<string>;
   profilePath: string;
   layouts: {
-    [Key in "left" | "right" | "none" | "left-right" | "left-right-none" | string]?: {
-      selectComponentId: string;
-      components: {
-        [Key in string]: {
-          type: "trigger" | "squeeze" | "touchpad" | "thumbstick" | "button" | string;
-          gamepadIndices: {
-            [Key in string | "button" | "xAxis" | "yAxis"]?: number;
-          };
-          rootNodeName: string;
-          visualResponses: any;
-        };
-      };
-      gamepadMapping: string;
-      rootNodeName: string;
-      assetPath: string;
-    };
+    [Key in
+      | "left"
+      | "right"
+      | "none"
+      | "left-right"
+      | "left-right-none"
+      | string]?: ControllerLayout;
   };
 };
 

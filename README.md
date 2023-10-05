@@ -29,6 +29,8 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 | <a href="https://coconut-xr.github.io/klettern/">Klettern Demo - VR Climbing</a> |
 | <a href="https://coconut-xr.github.io/klettern/"><img src="./docs/static/images/klettern.gif" width="100%"></a>|
 
+- [Gamepad api](https://codesandbox.io/s/natuerlich-gamepad-api-example-l48gx5)
+
 ## [Documentation](https://coconut-xr.github.io/natuerlich/)
 
 | | |

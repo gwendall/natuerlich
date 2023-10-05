@@ -20,6 +20,7 @@ export * from "./plane.js";
 export * from "./image.js";
 export * from "./background.js";
 export * from "./pose.js";
+export * from "./gamepad.js";
 
 /**
  * hook to determine if a xr mode is supported
