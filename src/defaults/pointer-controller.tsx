@@ -11,6 +11,7 @@ import {
   Event,
   Vector3,
   PositionalAudio as PositionalAudioImpl,
+  Vector2,
 } from "three";
 import {
   CursorBasicMaterial,
@@ -21,10 +22,12 @@ import {
   updateRayTransformation,
   PositionalAudio,
 } from "./index.js";
-import { ThreeEvent, createPortal, useThree } from "@react-three/fiber";
-import { VisibilityFocusStateGuard } from "../react/index.js";
+import { ThreeEvent, createPortal, useFrame, useThree } from "@react-three/fiber";
+import { VisibilityFocusStateGuard, useXRGamepadReader } from "../react/index.js";
 
 const negZAxis = new Vector3(0, 0, -1);
+
+const vec2Helper = new Vector2();
 
 /**
  * controller for pointing objects when the select button is pressed
@@ -48,6 +51,7 @@ export function PointerController({
   cursorOffset = 0.01,
   pressSoundUrl = "https://coconut-xr.github.io/xsounds/plop.mp3",
   pressSoundVolume = 0.3,
+  scrollSpeed,
   ...rest
 }: {
   inputSource: XRInputSource;
@@ -70,6 +74,7 @@ export function PointerController({
   onClickMissed?: ((event: ThreeEvent<Event>) => void) | undefined;
   pressSoundUrl?: string;
   pressSoundVolume?: number;
+  scrollSpeed?: number | null;
 }) {
   const sound = useRef<PositionalAudioImpl>(null);
 
@@ -78,6 +83,23 @@ export function PointerController({
   const cursorRef = useRef<Mesh>(null);
   const rayRef = useRef<Mesh>(null);
   const prevIntersected = useRef(false);
+
+  const reader = useXRGamepadReader(inputSource);
+
+  useFrame((_, delta) => {
+    if (scrollSpeed === null ?? pointerRef.current == null) {
+      return;
+    }
+    if (!reader.readAxes("xr-standard-thumbstick", vec2Helper)) {
+      return;
+    }
+    const speed = scrollSpeed ?? 300;
+    const event = new WheelEvent("wheel", {
+      deltaX: vec2Helper.x * delta * speed,
+      deltaY: vec2Helper.y * delta * speed,
+    });
+    pointerRef.current.wheel(event);
+  });
 
   const cursorMaterial = useMemo(
     () => new CursorBasicMaterial({ transparent: true, toneMapped: false }),

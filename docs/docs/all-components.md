@@ -55,6 +55,7 @@ The `Grabbable` component is a wrapper that allows its children objects to be in
 ### `PointerController` and `PointerHand`
 
 The `PointerController` and `PointerHand` components manage the action of pointing at objects when the select button is pressed or a pinch gesture is detected, respectively. They include cursor and ray visualization, and they share the same properties as the `Controllers` component, with the addition of `rayMaxLength`, `rayVisible`, and `cursorOffset`.
+The `PointerController` can also be used to emit the "onWheel" eventusing the "xr-standard-thumbstick" when pointing at something. In combination with "koestlich" the "onWheel" event will lead to scrolling. The scroll speed can be controlled using the `scrollSpeed` property. Setting the `scrollSpeed` to `null` disables emitting "onWheel".
 
 ### `TeleportHand` and `TeleportController`
 
