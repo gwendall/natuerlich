@@ -149,7 +149,11 @@ The `TouchHand` component is for touching objects based on their distance to the
 
 ### `TrackedPlane`
 
-`TrackedPlane` is a component for positioning content at the location of a tracked WebXR plane.
+`TrackedPlane` is a component for placing content at the location of a tracked WebXR plane.
+
+### `TrackedMesh`
+
+`TrackedMesh` is a component for rendering a tracked webxr mesh and placing content (children) at the tracked mesh position.
 
 ### `SpaceGroup`
 

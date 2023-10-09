@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import { useLoader } from "@react-three/fiber";
+import { useFrame, useLoader } from "@react-three/fiber";
 import { MutableRefObject, Suspense, useCallback, useRef, useState } from "react";
 import {
   SpaceGroup,
@@ -23,6 +23,10 @@ import {
   Background,
   QuadLayerPortal,
   useSessionSupported,
+  useTrackedMeshes,
+  TrackedMesh,
+  useTrackedMeshObjects,
+  useXR,
 } from "@coconut-xr/natuerlich/react";
 import { BoxGeometry, PlaneGeometry, TextureLoader, Vector3 } from "three";
 import {
@@ -77,7 +81,7 @@ import {
   Controllers,
   Hands,
 } from "@coconut-xr/natuerlich/defaults";
-import { getInputSourceId, getPlaneId } from "@coconut-xr/natuerlich";
+import { getInputSourceId, getMeshId, getPlaneId } from "@coconut-xr/natuerlich";
 
 const tableData = [
   ["Entry Name", "Entry Number", "Entry Description"],
@@ -129,6 +133,7 @@ export default function Index() {
           <Controllers />
           <Hands />
           <TrackedPlanes />
+          <TrackedMeshes />
           <AnchorObject />
         </ImmersiveSessionOrigin>
         <NonImmersiveCamera position={[0, 1, 5]} />
@@ -167,13 +172,26 @@ export default function Index() {
   );
 }
 
+function TrackedMeshes() {
+  const meshes = useTrackedMeshes();
+  return (
+    <>
+      {meshes?.map((mesh) => (
+        <TrackedMesh mesh={mesh} key={getMeshId(mesh)}>
+          <meshPhongMaterial color="blue" wireframe />
+        </TrackedMesh>
+      ))}
+    </>
+  );
+}
+
 function TrackedPlanes() {
   const planes = useTrackedPlanes();
   return (
     <>
       {planes?.map((plane) => (
         <TrackedPlane plane={plane} key={getPlaneId(plane)}>
-          <meshPhongMaterial color="gray" />
+          <meshPhongMaterial color="red" />
         </TrackedPlane>
       ))}
     </>

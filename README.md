@@ -43,7 +43,7 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 | <a href="https://coconut-xr.github.io/natuerlich/anchors"><img src="./docs/static/images/anchor.gif" width="70%"></a>| <a href="https://coconut-xr.github.io/natuerlich/tracked-planes"><img src="./docs/static/images/tracked-planes.gif" width="70%"></a>|
 | <a href="https://coconut-xr.github.io/natuerlich/head-up-display">Head Up Display - placing content in front of the user's camera</a>| <a href="https://coconut-xr.github.io/natuerlich/custom-input-sources">Custom Input Sources - building custom interactive hands and controllers</a>|
 | <a href="https://coconut-xr.github.io/natuerlich/head-up-display"><img src="./docs/static/images/head-up-display.gif" width="70%"></a> | <a href="https://coconut-xr.github.io/natuerlich/custom-input-sources"><img src="./docs/static/images/fist-grab-hand.gif" width="70%"></a>|
-|  <a href="https://coconut-xr.github.io/natuerlich/images"> Tracked Images - <br></br> image marker tracking using WebXR Image Tracking </a>| <a href="https://coconut-xr.github.io/natuerlich/guards">Guards - <br></br> conditional rendering using guards </a>|
+|  <a href="https://coconut-xr.github.io/natuerlich/tracked-images"> Tracked Images - <br></br> image marker tracking using WebXR Image Tracking </a>| <a href="https://coconut-xr.github.io/natuerlich/guards">Guards - <br></br> conditional rendering using guards </a>|
 | <a href="https://coconut-xr.github.io/natuerlich/use-xr"> Use XR - <br></br> accessing the raw XR state </a>| <a href="https://coconut-xr.github.io/natuerlich/configuration">Configuration - <br></br> configuring foveation, frameRate, referenceSpace, and frameBufferScaling </a>|
 | | |
 ---

@@ -38,6 +38,7 @@ export type XRState = (
       trackedImages: TrackedImagesMap;
       requestedTrackedImages?: ReadonlyArray<XRTrackedImageInit>;
       trackedPlanes: ReadonlyArray<XRPlane>;
+      trackedMeshes: ReadonlyArray<XRMesh>;
       visibilityState: XRVisibilityState;
     }
   | {
@@ -49,6 +50,7 @@ export type XRState = (
       trackedImages?: undefined;
       requestedTrackedImages?: undefined;
       trackedPlanes?: undefined;
+      trackedMeshes?: undefined;
       visibilityState?: undefined;
     }
 ) & {
@@ -70,7 +72,13 @@ const initialState = {
 export const useXR = create(
   combine(initialState, (set, get) => ({
     onFrame: (state: RootState, delta: number, frame: XRFrame | undefined) => {
-      const { trackedImages, requestedTrackedImages, trackedPlanes, onNextFrameCallbacks } = get();
+      const {
+        trackedImages,
+        requestedTrackedImages,
+        trackedMeshes,
+        trackedPlanes,
+        onNextFrameCallbacks,
+      } = get();
 
       for (const onNextFrameCallback of onNextFrameCallbacks) {
         onNextFrameCallback(state, delta, frame);
@@ -78,24 +86,15 @@ export const useXR = create(
       onNextFrameCallbacks.clear();
 
       //handle tracked planes
-
       const detectedPlanes = (frame as { detectedPlanes?: XRPlaneSet })?.detectedPlanes;
-      let newPlanes = trackedPlanes;
-
-      if (detectedPlanes == null) {
-        newPlanes = undefined;
-      } else if (trackedPlanes == null || trackedPlanes.length != detectedPlanes.size) {
-        newPlanes = Array.from(detectedPlanes);
-      } else {
-        for (const plane of detectedPlanes) {
-          if (!trackedPlanes.includes(plane)) {
-            newPlanes = Array.from(detectedPlanes);
-            break;
-          }
-        }
+      if (!equalContent(detectedPlanes, trackedPlanes)) {
+        set({ trackedPlanes: detectedPlanes == null ? undefined : Array.from(detectedPlanes) });
       }
-      if (newPlanes != trackedPlanes) {
-        set({ trackedPlanes: newPlanes });
+
+      //handle tracked meshes
+      const detectedMeshes = (frame as { detectedMeshes?: XRMeshSet })?.detectedMeshes;
+      if (!equalContent(detectedMeshes, trackedMeshes)) {
+        set({ trackedMeshes: detectedMeshes == null ? undefined : Array.from(detectedMeshes) });
       }
 
       //handle tracked images
@@ -260,3 +259,24 @@ export const useXR = create(
     },
   })),
 );
+
+function equalContent<T>(
+  set: ReadonlySet<T> | undefined,
+  arr: ReadonlyArray<T> | undefined,
+): boolean {
+  if (set === arr) {
+    return true;
+  }
+
+  if (set == null || set.size != arr?.length) {
+    return false;
+  }
+
+  for (const entry of arr) {
+    if (!set.has(entry)) {
+      return false;
+    }
+  }
+
+  return true;
+}

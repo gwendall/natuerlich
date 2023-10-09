@@ -53,6 +53,10 @@ export default function Index() {
 
 ```
 
+## Get the Plane for Specific Objects using Semantic Labels
+
+Using `useTrackedObjectPlanes("desk")` you can retrieve all planes of objects that were recognized as desks. Using or rendering the retrieved planes works the same way as in the demo above. 
+
 ---
 
 :::note Question not answered?

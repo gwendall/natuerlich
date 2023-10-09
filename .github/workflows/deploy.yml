@@ -85,7 +85,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.PRIVATE_GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check
         run: npm run check

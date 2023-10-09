@@ -11,6 +11,16 @@ export function getPlaneId(plane: XRPlane): number {
   return id;
 }
 
+const xrMeshIdMap = new Map<XRMesh, number>();
+
+export function getMeshId(mesh: XRMesh): number {
+  let id = xrMeshIdMap.get(mesh);
+  if (id == null) {
+    xrMeshIdMap.set(mesh, (id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)));
+  }
+  return id;
+}
+
 const xrInputSourceIdMap = new Map<XRInputSource, number>();
 
 export function getInputSourceId(inputSource: XRInputSource): number {

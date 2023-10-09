@@ -1,5 +1,5 @@
 import { useFrame, useStore, useThree } from "@react-three/fiber";
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { useXR } from "./state.js";
 import { shallow } from "zustand/shallow";
 
@@ -17,6 +17,7 @@ export * from "./anchor.js";
 export * from "./camera.js";
 export * from "./layers/index.js";
 export * from "./plane.js";
+export * from "./mesh.js";
 export * from "./image.js";
 export * from "./background.js";
 export * from "./pose.js";

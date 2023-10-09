@@ -224,8 +224,9 @@ With this bare-bones setup, you are ready to use all features **natuerlich** has
 - [Guards](./guards.md) - conditional rendering using guards
 - [Layers](./layers.md) - high quality content using WebXR layers
 - [Anchors](./anchors.md) - spatial anchors using WebXR anchors
-- [Tracked Planes](./tracked-planes.md) - tracked room planes using WebXR planes
-- [Tracked Images](./images.md) - image marker tracking using WebXR Image Tracking
+- [Tracked Planes](./tracked-planes.md) - tracked planes using WebXR planes
+- [Tracked Meshes](./tracked-meshes.md) - tracked meshes using WebXR meshes
+- [Tracked Images](./tracked-images.md) - image marker tracking using WebXR Image Tracking
 - [Head Up Display](./head-up-display.md) - placing content in front of the user's camera
 - [Custom Input Sources](./custom-input-sources.md) - building custom interactive hands and controllers
 - [Use XR](./use-xr.md) - accessing the raw XR state

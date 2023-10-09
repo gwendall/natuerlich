@@ -43,7 +43,22 @@ This hook returns a function that triggers room setup for WebXR tracked planes.
 
 ## `useTrackedPlanes`
 
-This hook returns a readonly array of currently tracked planes by WebXR (`XRPlane`).
+This hook returns a readonly array of currently tracked planes (`XRPlane`).
+
+
+## `useTrackedPlaneObjects`
+
+This hook returns a readonly array of currently tracked planes (`XRPlane`) with a specific semantic label.
+
+
+## `useTrackedMeshes`
+
+This hook returns a readonly array of currently tracked meshes (`XRMesh`).
+
+
+## `useTrackedMeshObjects`
+
+This hook returns a readonly array of currently tracked mesh (`XRMesh`) with a specific semantic label.
 
 ## `useHandPoses`
 
