@@ -50,7 +50,7 @@ We provide bindings to [react-three/fiber](https://github.com/pmndrs/react-three
 | <a href="/anchors"><Image img={require(`@site/static/images/anchor.gif`)} style={{width: "70%"}}/></a>| <a href="/tracked-planes"><Image img={require(`@site/static/images/tracked-planes.gif`)} style={{width: "70%"}}/></a>|
 | <a href="/head-up-display">Head Up Display - placing content in front of the user's camera</a>| <a href="/custom-input-sources">Custom Input Sources - building custom interactive hands and controllers</a>|
 | <a href="/head-up-display"><Image img={require(`@site/static/images/head-up-display.gif`)} style={{width: "70%"}}/></a> | <a href="/custom-input-sources"><Image img={require(`@site/static/images/fist-grab-hand.gif`)} style={{width: "70%"}}/></a>|
-|  <a href="/images"> Tracked Images - <br></br> image marker tracking using WebXR Image Tracking </a>| <a href="/guards">Guards - <br></br> conditional rendering using guards </a>|
+|  <a href="/tracked-images"> Tracked Images - <br></br> image marker tracking using WebXR Image Tracking </a>| <a href="/guards">Guards - <br></br> conditional rendering using guards </a>|
 | <a href="/use-xr"> Use XR - <br></br> accessing the raw XR state </a>| <a href="/configuration">Configuration - <br></br> configuring foveation, frameRate, referenceSpace, and frameBufferScaling </a>|
 | | |
 ---
