@@ -1,6 +1,6 @@
 import { useInputSourceProfile } from "./controller.js";
 import { useCallback, useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { RootState, useFrame } from "@react-three/fiber";
 import { Vector2 } from "three";
 
 export enum ButtonState {
@@ -97,25 +97,33 @@ export const useXRGamepadReader = (
 export const useXRGamepadButton = (
   inputSource: XRInputSource,
   componentId: string,
-  pressCallback: () => void,
-  releaseCallback: () => void,
+  pressCallback?: (state: RootState, frame: XRFrame | undefined) => void,
+  releaseCallback?: (state: RootState, frame: XRFrame | undefined) => void,
 ) => {
   const prevState = useRef(ButtonState.DEFAULT);
   const reader = useXRGamepadReader(inputSource);
 
-  useFrame(() => {
+  useFrame((state, _delta, frame: XRFrame | undefined) => {
     const newState = reader.readButtonState(componentId);
 
     if (!newState) {
       return;
     }
 
-    if (prevState.current !== ButtonState.PRESSED && newState === ButtonState.PRESSED) {
-      pressCallback();
+    if (
+      pressCallback != null &&
+      prevState.current !== ButtonState.PRESSED &&
+      newState === ButtonState.PRESSED
+    ) {
+      pressCallback(state, frame);
     }
 
-    if (prevState.current === ButtonState.PRESSED && newState !== ButtonState.PRESSED) {
-      releaseCallback();
+    if (
+      releaseCallback != null &&
+      prevState.current === ButtonState.PRESSED &&
+      newState !== ButtonState.PRESSED
+    ) {
+      releaseCallback(state, frame);
     }
 
     prevState.current = newState;
