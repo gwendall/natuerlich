@@ -2,7 +2,7 @@
 import { MeshProps, useFrame } from "@react-three/fiber";
 import React, { useEffect, useImperativeHandle, useMemo, useRef } from "react";
 import { forwardRef } from "react";
-import { BufferGeometry, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
+import { Box2, BufferGeometry, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
 import { useApplySpace } from "./space.js";
 import { useXR } from "./state.js";
 import { shallow } from "zustand/shallow";
@@ -43,10 +43,24 @@ export function useTrackedObjectPlanes(
   );
 }
 
+const boxHelper = new Box2();
+const sizeHelper = new Vector2();
+
 function createGeometryFromPolygon(polygon: DOMPointReadOnly[]): BufferGeometry {
   const shape = new Shape();
-  shape.setFromPoints(polygon.map(({ x, z }) => new Vector2(x, -z)));
+  const points = polygon.map(({ x, z }) => new Vector2(x, -z));
+  //we measure the size and scale & unscale to have normalized UVs for the geometry
+  boxHelper.setFromPoints(points);
+  boxHelper.getSize(sizeHelper);
+  for (const point of points) {
+    point.sub(boxHelper.min);
+    point.divide(sizeHelper);
+  }
+  console.log(points);
+  shape.setFromPoints(points);
   const geometry = new ShapeGeometry(shape);
+  geometry.scale(sizeHelper.x, sizeHelper.y, 1);
+  geometry.translate(boxHelper.min.x, boxHelper.min.y, 0);
   geometry.rotateX(-Math.PI / 2);
   return geometry;
 }

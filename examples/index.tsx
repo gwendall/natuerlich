@@ -187,11 +187,12 @@ function TrackedMeshes() {
 
 function TrackedPlanes() {
   const planes = useTrackedPlanes();
+  const texture = useLoader(TextureLoader, "test.png");
   return (
     <>
       {planes?.map((plane) => (
         <TrackedPlane plane={plane} key={getPlaneId(plane)}>
-          <meshPhongMaterial color="red" />
+          <meshPhongMaterial map={texture} />
         </TrackedPlane>
       ))}
     </>
