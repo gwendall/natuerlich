@@ -25,7 +25,7 @@ import {
 import { getMeshId } from "@coconut-xr/natuerlich";
 
 const sessionOptions: XRSessionInit = {
-  requiredFeatures: ["local-floor", "mesh-detection"]
+  requiredFeatures: ["local-floor", "hit-test", "mesh-detection"]
 };
 
 export default function Index() {
@@ -40,9 +40,9 @@ export default function Index() {
         <NonImmersiveCamera position={[0, 1.5, 4]} />
         <ImmersiveSessionOrigin position={[0, 0, 4]}>
           <pointLight position={[0, 1, 0]} intensity={10} />
-      {meshes.map((mesh) => (
+      {meshes?.map((mesh) => (
         <TrackedMesh mesh={mesh} key={getMeshId(mesh)}>
-          <meshPhongMaterial color="gray" />
+          <meshBasicMaterial wireframe color="red" />
         </TrackedMesh>
       ))}
         </ImmersiveSessionOrigin>
