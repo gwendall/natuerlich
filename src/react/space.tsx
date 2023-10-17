@@ -12,7 +12,7 @@ import { Group, Object3D } from "three";
  * @param onFrame callback executed every frame with the object to retrieve its worldMatrix f.e.
  */
 export function useApplySpace(
-  ref: RefObject<Object3D>,
+  ref: RefObject<Object3D> | Object3D,
   space: XRSpace,
   onFrame?: (
     rootState: RootState,
@@ -22,7 +22,7 @@ export function useApplySpace(
   ) => void,
 ): void {
   useFrame((rootState, delta, frame: XRFrame | undefined) => {
-    const group = ref.current;
+    const group = ref instanceof Object3D ? ref : ref.current;
     if (group == null) {
       return;
     }

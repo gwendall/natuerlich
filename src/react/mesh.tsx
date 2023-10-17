@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
-import { MeshProps, useFrame } from "@react-three/fiber";
-import React, { useEffect, useImperativeHandle, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import React, { ReactNode, useEffect, useImperativeHandle, useMemo, useRef } from "react";
 import { forwardRef } from "react";
 import { BufferAttribute, BufferGeometry, Mesh } from "three";
 import { useApplySpace } from "./space.js";
@@ -32,33 +32,34 @@ export function useTrackedObjectMeshes(
   );
 }
 
+function updateGeometry(object: Mesh, lastUpdateRef: { current?: number }, mesh: XRMesh): void {
+  if (lastUpdateRef.current != null && lastUpdateRef.current >= mesh.lastChangedTime) {
+    return;
+  }
+  object.geometry.dispose();
+  const geometry = new BufferGeometry();
+  geometry.setIndex(new BufferAttribute(mesh.indices, 1));
+  geometry.setAttribute("position", new BufferAttribute(mesh.vertices, 3));
+  object.geometry = geometry;
+  lastUpdateRef.current = mesh.lastChangedTime;
+}
+
 /**
  * component for rendering a tracked webxr mesh and placing content (children) at the tracked mesh position
  */
-export const TrackedMesh = forwardRef<Mesh, { mesh: XRMesh } & MeshProps>(
-  ({ mesh, children, ...props }, ref) => {
+export const TrackedMesh = forwardRef<Mesh, { mesh: XRMesh; children?: ReactNode }>(
+  ({ mesh, children }, ref) => {
     const lastUpdateRef = useRef<number | undefined>(undefined);
-    const internalRef = useRef<Mesh>(null);
-    useFrame(() => {
-      if (internalRef.current == null) {
-        return;
-      }
-      if (lastUpdateRef.current == null || lastUpdateRef.current < mesh.lastChangedTime) {
-        internalRef.current.geometry.dispose();
-        const geometry = new BufferGeometry();
-        geometry.setIndex(new BufferAttribute(mesh.indices, 1));
-        geometry.setAttribute("position", new BufferAttribute(mesh.vertices, 3));
-        internalRef.current.geometry = geometry;
-        lastUpdateRef.current = mesh.lastChangedTime;
-      }
-    });
-    useEffect(() => internalRef.current?.geometry.dispose(), []);
-    useImperativeHandle(ref, () => internalRef.current!, []);
-    useApplySpace(internalRef, mesh.meshSpace);
-    return (
-      <mesh {...props} matrixAutoUpdate={false} ref={internalRef}>
-        {children}
-      </mesh>
-    );
+    const object = useMemo(() => {
+      const m = new Mesh();
+      m.matrixAutoUpdate = false;
+      return m;
+    }, []);
+    updateGeometry(object, lastUpdateRef, mesh);
+    useFrame(() => updateGeometry(object, lastUpdateRef, mesh));
+    useEffect(() => object.geometry.dispose(), []);
+    useImperativeHandle(ref, () => object, []);
+    useApplySpace(object, mesh.meshSpace);
+    return <primitive object={object}>{children}</primitive>;
   },
 );

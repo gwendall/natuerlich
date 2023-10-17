@@ -28,7 +28,7 @@ import {
   useTrackedMeshObjects,
   useXR,
 } from "@coconut-xr/natuerlich/react";
-import { BoxGeometry, PlaneGeometry, TextureLoader, Vector3 } from "three";
+import { BoxGeometry, DoubleSide, PlaneGeometry, TextureLoader, Vector3 } from "three";
 import {
   InputDeviceFunctions,
   XSphereCollider,
@@ -97,6 +97,7 @@ const sessionOptions: XRSessionInit = {
     "anchors",
     //"layers",
     //"depth-sorted-layers",
+    "mesh-detection",
     "plane-detection",
   ],
 };
