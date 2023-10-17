@@ -87,19 +87,21 @@ export function applyPose(
  * the onFrame property allows to retrieve the object and its current matrixWorld transformation for every frame
  */
 export const SpaceGroup = forwardRef<
-  Group,
+  Object3D,
   {
-    space: XRSpace & { initialPose?: XRPose };
+    space: XRSpace;
+    initialPose?: XRPose;
     children?: ReactNode;
     onFrame?: OnFrameCallback;
+    as?: { new (): Object3D };
   }
->(({ space, children, onFrame }, ref) => {
-  const group = useMemo(() => {
-    const g = new Group();
+>(({ space, children, initialPose, onFrame, as = Group }, ref) => {
+  const object = useMemo(() => {
+    const g = new as();
     g.matrixAutoUpdate = false;
     return g;
   }, []);
-  useImperativeHandle(ref, () => group, []);
-  useApplySpace(group, space, space.initialPose, onFrame);
-  return <primitive object={group}>{children}</primitive>;
+  useImperativeHandle(ref, () => object, []);
+  useApplySpace(object, space, initialPose, onFrame);
+  return <primitive object={object}>{children}</primitive>;
 });

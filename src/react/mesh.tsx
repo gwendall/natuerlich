@@ -1,9 +1,9 @@
 /* eslint-disable react/display-name */
 import { useFrame } from "@react-three/fiber";
-import React, { ReactNode, useEffect, useImperativeHandle, useMemo, useRef } from "react";
+import React, { ReactNode, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { forwardRef } from "react";
-import { BufferAttribute, BufferGeometry, Mesh } from "three";
-import { OnFrameCallback, useApplySpace } from "./space.js";
+import { Box3, BufferAttribute, BufferGeometry, Mesh, Vector3 } from "three";
+import { OnFrameCallback, SpaceGroup } from "./space.js";
 import { ExtendedXRMesh, useXR } from "./state.js";
 import { shallow } from "zustand/shallow";
 
@@ -32,16 +32,20 @@ export function useTrackedObjectMeshes(
   );
 }
 
-function updateGeometry(object: Mesh, lastUpdateRef: { current?: number }, mesh: XRMesh): void {
+function updateGeometry(
+  geometry: BufferGeometry | undefined,
+  lastUpdateRef: { current?: number },
+  mesh: XRMesh,
+): BufferGeometry | undefined {
   if (lastUpdateRef.current != null && lastUpdateRef.current >= mesh.lastChangedTime) {
-    return;
+    return geometry;
   }
-  object.geometry.dispose();
-  const geometry = new BufferGeometry();
+  geometry?.dispose();
+  geometry = new BufferGeometry();
   geometry.setIndex(new BufferAttribute(mesh.indices, 1));
   geometry.setAttribute("position", new BufferAttribute(mesh.vertices, 3));
-  object.geometry = geometry;
   lastUpdateRef.current = mesh.lastChangedTime;
+  return geometry;
 }
 
 /**
@@ -51,16 +55,48 @@ export const TrackedMesh = forwardRef<
   Mesh,
   { mesh: ExtendedXRMesh; children?: ReactNode; onFrame?: OnFrameCallback }
 >(({ mesh, children, onFrame }, ref) => {
-  const lastUpdateRef = useRef<number | undefined>(undefined);
-  const object = useMemo(() => {
-    const m = new Mesh();
-    m.matrixAutoUpdate = false;
-    return m;
-  }, []);
-  updateGeometry(object, lastUpdateRef, mesh);
-  useFrame(() => updateGeometry(object, lastUpdateRef, mesh));
-  useEffect(() => object.geometry.dispose(), []);
-  useImperativeHandle(ref, () => object, []);
-  useApplySpace(object, mesh.meshSpace, mesh.initialPose, onFrame);
-  return <primitive object={object}>{children}</primitive>;
+  return (
+    <SpaceGroup
+      space={mesh.meshSpace}
+      initialPose={mesh.initialPose}
+      as={Mesh}
+      onFrame={onFrame}
+      ref={ref}
+    >
+      <TrackedMeshGeometry mesh={mesh} />
+      {children}
+    </SpaceGroup>
+  );
 });
+
+const vectorHelper = new Vector3();
+
+/**
+ * computes the local bounding box of the mesh and writes it into @param target
+ */
+export function measureXRMesh(mesh: XRMesh, target: Box3): Box3 {
+  const length = mesh.vertices.length;
+  target.makeEmpty();
+  for (let i = 0; i < length; i += 3) {
+    vectorHelper.fromArray(mesh.vertices, i);
+    target.expandByPoint(vectorHelper);
+  }
+  return target;
+}
+
+/**
+ * component for rendering the geometry of a tracked webxr mesh
+ * Should be used together with a SpaceGroup
+ */
+export const TrackedMeshGeometry = forwardRef<BufferGeometry, { mesh: ExtendedXRMesh }>(
+  ({ mesh }, ref) => {
+    const lastUpdateRef = useRef<number | undefined>(undefined);
+    const [geometry, setGeometry] = useState<BufferGeometry | undefined>(
+      updateGeometry(undefined, lastUpdateRef, mesh),
+    );
+    useFrame(() => setGeometry((geometry) => updateGeometry(geometry, lastUpdateRef, mesh)));
+    useEffect(() => geometry?.dispose(), []);
+    useImperativeHandle(ref, () => geometry!, []);
+    return geometry != null ? <primitive object={geometry} /> : null;
+  },
+);

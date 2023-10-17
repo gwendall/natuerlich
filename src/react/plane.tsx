@@ -1,9 +1,9 @@
 /* eslint-disable react/display-name */
 import { useFrame } from "@react-three/fiber";
-import React, { ReactNode, useEffect, useImperativeHandle, useMemo, useRef } from "react";
+import React, { ReactNode, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { forwardRef } from "react";
-import { Box2, BufferGeometry, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
-import { OnFrameCallback, useApplySpace } from "./space.js";
+import { Box2, Box3, BufferGeometry, Mesh, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
+import { OnFrameCallback, SpaceGroup } from "./space.js";
 import { ExtendedXRPlane, useXR } from "./state.js";
 import { shallow } from "zustand/shallow";
 
@@ -56,7 +56,6 @@ function createGeometryFromPolygon(polygon: DOMPointReadOnly[]): BufferGeometry 
     point.sub(boxHelper.min);
     point.divide(sizeHelper);
   }
-  console.log(points);
   shape.setFromPoints(points);
   const geometry = new ShapeGeometry(shape);
   geometry.scale(sizeHelper.x, sizeHelper.y, 1);
@@ -65,13 +64,18 @@ function createGeometryFromPolygon(polygon: DOMPointReadOnly[]): BufferGeometry 
   return geometry;
 }
 
-function updateGeometry(object: Mesh, lastUpdateRef: { current?: number }, plane: XRPlane): void {
+function updateGeometry(
+  geometry: BufferGeometry | undefined,
+  lastUpdateRef: { current?: number },
+  plane: XRPlane,
+): BufferGeometry | undefined {
   if (lastUpdateRef.current != null && lastUpdateRef.current >= plane.lastChangedTime) {
-    return;
+    return geometry;
   }
-  object.geometry.dispose();
-  object.geometry = createGeometryFromPolygon(plane.polygon);
+  geometry?.dispose();
+  geometry = createGeometryFromPolygon(plane.polygon);
   lastUpdateRef.current = plane.lastChangedTime;
+  return geometry;
 }
 
 /**
@@ -81,16 +85,46 @@ export const TrackedPlane = forwardRef<
   Mesh,
   { plane: ExtendedXRPlane; children?: ReactNode; onFrame?: OnFrameCallback }
 >(({ plane, children, onFrame }, ref) => {
-  const lastUpdateRef = useRef<number | undefined>(undefined);
-  const object = useMemo(() => {
-    const m = new Mesh();
-    m.matrixAutoUpdate = false;
-    return m;
-  }, []);
-  updateGeometry(object, lastUpdateRef, plane);
-  useFrame(() => updateGeometry(object, lastUpdateRef, plane));
-  useEffect(() => object.geometry.dispose(), []);
-  useImperativeHandle(ref, () => object, []);
-  useApplySpace(object, plane.planeSpace, plane.initialPose, onFrame);
-  return <primitive object={object}>{children}</primitive>;
+  return (
+    <SpaceGroup
+      space={plane.planeSpace}
+      initialPose={plane.initialPose}
+      onFrame={onFrame}
+      as={Mesh}
+      ref={ref}
+    >
+      <TrackedPlaneGeometry plane={plane} />
+      {children}
+    </SpaceGroup>
+  );
 });
+
+const vectorHelper = new Vector3();
+
+/**
+ * computes the local bounding box of the plane and writes it into @param target
+ */
+export function measureXRPlane(plane: XRPlane, target: Box3): Box3 {
+  target.makeEmpty();
+  for (const { x, y, z } of plane.polygon) {
+    target.expandByPoint(vectorHelper.set(x, y, z));
+  }
+  return target;
+}
+
+/**
+ * component for rendering the geometry of a tracked webxr plane
+ * Should be used together with a SpaceGroup
+ */
+export const TrackedPlaneGeometry = forwardRef<BufferGeometry, { plane: XRPlane }>(
+  ({ plane }, ref) => {
+    const lastUpdateRef = useRef<number | undefined>(undefined);
+    const [geometry, setGeometry] = useState<BufferGeometry | undefined>(
+      updateGeometry(undefined, lastUpdateRef, plane),
+    );
+    useFrame(() => setGeometry((geometry) => updateGeometry(geometry, lastUpdateRef, plane)));
+    useEffect(() => geometry?.dispose(), []);
+    useImperativeHandle(ref, () => geometry!, [geometry]);
+    return geometry != null ? <primitive object={geometry} /> : null;
+  },
+);
