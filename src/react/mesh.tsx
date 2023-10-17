@@ -3,8 +3,8 @@ import { useFrame } from "@react-three/fiber";
 import React, { ReactNode, useEffect, useImperativeHandle, useMemo, useRef } from "react";
 import { forwardRef } from "react";
 import { BufferAttribute, BufferGeometry, Mesh } from "three";
-import { useApplySpace } from "./space.js";
-import { useXR } from "./state.js";
+import { OnFrameCallback, useApplySpace } from "./space.js";
+import { ExtendedXRMesh, useXR } from "./state.js";
 import { shallow } from "zustand/shallow";
 
 /**
@@ -47,19 +47,20 @@ function updateGeometry(object: Mesh, lastUpdateRef: { current?: number }, mesh:
 /**
  * component for rendering a tracked webxr mesh and placing content (children) at the tracked mesh position
  */
-export const TrackedMesh = forwardRef<Mesh, { mesh: XRMesh; children?: ReactNode }>(
-  ({ mesh, children }, ref) => {
-    const lastUpdateRef = useRef<number | undefined>(undefined);
-    const object = useMemo(() => {
-      const m = new Mesh();
-      m.matrixAutoUpdate = false;
-      return m;
-    }, []);
-    updateGeometry(object, lastUpdateRef, mesh);
-    useFrame(() => updateGeometry(object, lastUpdateRef, mesh));
-    useEffect(() => object.geometry.dispose(), []);
-    useImperativeHandle(ref, () => object, []);
-    useApplySpace(object, mesh.meshSpace);
-    return <primitive object={object}>{children}</primitive>;
-  },
-);
+export const TrackedMesh = forwardRef<
+  Mesh,
+  { mesh: ExtendedXRMesh; children?: ReactNode; onFrame?: OnFrameCallback }
+>(({ mesh, children, onFrame }, ref) => {
+  const lastUpdateRef = useRef<number | undefined>(undefined);
+  const object = useMemo(() => {
+    const m = new Mesh();
+    m.matrixAutoUpdate = false;
+    return m;
+  }, []);
+  updateGeometry(object, lastUpdateRef, mesh);
+  useFrame(() => updateGeometry(object, lastUpdateRef, mesh));
+  useEffect(() => object.geometry.dispose(), []);
+  useImperativeHandle(ref, () => object, []);
+  useApplySpace(object, mesh.meshSpace, mesh.initialPose, onFrame);
+  return <primitive object={object}>{children}</primitive>;
+});

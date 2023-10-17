@@ -3,8 +3,8 @@ import { useFrame } from "@react-three/fiber";
 import React, { ReactNode, useEffect, useImperativeHandle, useMemo, useRef } from "react";
 import { forwardRef } from "react";
 import { Box2, BufferGeometry, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
-import { useApplySpace } from "./space.js";
-import { useXR } from "./state.js";
+import { OnFrameCallback, useApplySpace } from "./space.js";
+import { ExtendedXRPlane, useXR } from "./state.js";
 import { shallow } from "zustand/shallow";
 
 /**
@@ -77,19 +77,20 @@ function updateGeometry(object: Mesh, lastUpdateRef: { current?: number }, plane
 /**
  * component for positioning content (children) at the position of a tracked webxr plane
  */
-export const TrackedPlane = forwardRef<Mesh, { plane: XRPlane; children?: ReactNode }>(
-  ({ plane, children, ...props }, ref) => {
-    const lastUpdateRef = useRef<number | undefined>(undefined);
-    const object = useMemo(() => {
-      const m = new Mesh();
-      m.matrixAutoUpdate = false;
-      return m;
-    }, []);
-    updateGeometry(object, lastUpdateRef, plane);
-    useFrame(() => updateGeometry(object, lastUpdateRef, plane));
-    useEffect(() => object.geometry.dispose(), []);
-    useImperativeHandle(ref, () => object, []);
-    useApplySpace(object, plane.planeSpace);
-    return <primitive object={object}>{children}</primitive>;
-  },
-);
+export const TrackedPlane = forwardRef<
+  Mesh,
+  { plane: ExtendedXRPlane; children?: ReactNode; onFrame?: OnFrameCallback }
+>(({ plane, children, onFrame }, ref) => {
+  const lastUpdateRef = useRef<number | undefined>(undefined);
+  const object = useMemo(() => {
+    const m = new Mesh();
+    m.matrixAutoUpdate = false;
+    return m;
+  }, []);
+  updateGeometry(object, lastUpdateRef, plane);
+  useFrame(() => updateGeometry(object, lastUpdateRef, plane));
+  useEffect(() => object.geometry.dispose(), []);
+  useImperativeHandle(ref, () => object, []);
+  useApplySpace(object, plane.planeSpace, plane.initialPose, onFrame);
+  return <primitive object={object}>{children}</primitive>;
+});

@@ -1,8 +1,9 @@
 /* eslint-disable react/display-name */
 import { RootState, useFrame } from "@react-three/fiber";
-import React, { forwardRef, ReactNode, RefObject, useRef } from "react";
+import React, { forwardRef, ReactNode, RefObject, useMemo } from "react";
 import { useImperativeHandle } from "react";
 import { Group, Object3D } from "three";
+import { useXR } from "./state.js";
 
 /**
  * hook to apply the transformation of a space onto an object
@@ -14,6 +15,29 @@ import { Group, Object3D } from "three";
 export function useApplySpace(
   ref: RefObject<Object3D> | Object3D,
   space: XRSpace,
+  initialPose?: XRPose,
+  onFrame?: OnFrameCallback,
+): void {
+  const state = useXR.getState();
+  const object = ref instanceof Object3D ? ref : ref.current;
+  if (object != null && state.store != null && initialPose != null) {
+    applyPose(state.store.getState(), 0, undefined, object, initialPose, onFrame);
+  }
+  useFrame((rootState, delta, frame: XRFrame | undefined) => {
+    const object = ref instanceof Object3D ? ref : ref.current;
+    if (object == null) {
+      return;
+    }
+    applySpace(rootState, delta, frame, object, space, onFrame);
+  });
+}
+
+export function applySpace(
+  state: RootState,
+  delta: number,
+  frame: XRFrame | undefined,
+  object: Object3D,
+  space: XRSpace,
   onFrame?: (
     rootState: RootState,
     delta: number,
@@ -21,37 +45,41 @@ export function useApplySpace(
     object: Object3D,
   ) => void,
 ): void {
-  useFrame((rootState, delta, frame: XRFrame | undefined) => {
-    const group = ref instanceof Object3D ? ref : ref.current;
-    if (group == null) {
-      return;
-    }
-    applySpace(rootState, frame, group, space);
-    if (onFrame != null) {
-      group.updateMatrixWorld();
-      onFrame(rootState, delta, frame, group);
-    }
-  });
-}
-
-export function applySpace(
-  state: RootState,
-  frame: XRFrame | undefined,
-  object: Object3D,
-  space: XRSpace,
-): void {
   const referenceSpace = state.gl.xr.getReferenceSpace();
   if (referenceSpace == null || frame == null) {
     object.visible = false;
     return;
   }
   const pose = frame.getPose(space, referenceSpace);
+  applyPose(state, delta, frame, object, pose, onFrame);
+}
+
+export type OnFrameCallback = (
+  rootState: RootState,
+  delta: number,
+  frame: XRFrame | undefined,
+  object: Object3D,
+) => void;
+
+export function applyPose(
+  state: RootState,
+  delta: number,
+  frame: XRFrame | undefined,
+  object: Object3D,
+  pose: XRPose | undefined,
+  onFrame?: OnFrameCallback,
+): void {
   if (pose == null) {
     object.visible = false;
     return;
   }
   object.visible = true;
   object.matrix.fromArray(pose.transform.matrix);
+
+  if (onFrame != null) {
+    object.updateMatrixWorld();
+    onFrame(state, delta, frame, object);
+  }
 }
 
 /**
@@ -61,22 +89,17 @@ export function applySpace(
 export const SpaceGroup = forwardRef<
   Group,
   {
-    space: XRSpace;
+    space: XRSpace & { initialPose?: XRPose };
     children?: ReactNode;
-    onFrame?: (
-      rootState: RootState,
-      delta: number,
-      frame: XRFrame | undefined,
-      object: Object3D,
-    ) => void;
+    onFrame?: OnFrameCallback;
   }
 >(({ space, children, onFrame }, ref) => {
-  const internalRef = useRef<Group>(null);
-  useImperativeHandle(ref, () => internalRef.current!, []);
-  useApplySpace(internalRef, space, onFrame);
-  return (
-    <group matrixAutoUpdate={false} ref={internalRef}>
-      {children}
-    </group>
-  );
+  const group = useMemo(() => {
+    const g = new Group();
+    g.matrixAutoUpdate = false;
+    return g;
+  }, []);
+  useImperativeHandle(ref, () => group, []);
+  useApplySpace(group, space, space.initialPose, onFrame);
+  return <primitive object={group}>{children}</primitive>;
 });

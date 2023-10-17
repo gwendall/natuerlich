@@ -10,6 +10,7 @@ export type XRImageTrackingState = "tracked" | "emulated";
 
 export type XRImageTrackingResult = {
   readonly imageSpace: XRSpace;
+  initialPose?: XRPose;
   readonly index: number;
   readonly trackingState: XRImageTrackingState;
   readonly measuredWidthInMeters: number;
@@ -26,6 +27,9 @@ export type TrackedImagesMap = Map<number, XRImageTrackingResult>;
 
 export type ExtendedXRSessionMode = XRState["mode"];
 
+export type ExtendedXRPlane = XRPlane & { initialPose?: XRPose };
+export type ExtendedXRMesh = XRMesh & { initialPose?: XRPose };
+
 export type XRState = (
   | {
       mode: XRSessionMode;
@@ -37,8 +41,8 @@ export type XRState = (
       layers: Array<{ index: number; layer: XRLayer }>;
       trackedImages: TrackedImagesMap;
       requestedTrackedImages?: ReadonlyArray<XRTrackedImageInit>;
-      trackedPlanes: ReadonlyArray<XRPlane>;
-      trackedMeshes: ReadonlyArray<XRMesh>;
+      trackedPlanes: ReadonlyArray<ExtendedXRPlane>;
+      trackedMeshes: ReadonlyArray<ExtendedXRMesh>;
       visibilityState: XRVisibilityState;
     }
   | {
@@ -85,16 +89,33 @@ export const useXR = create(
       }
       onNextFrameCallbacks.clear();
 
+      const referenceSpace = state.get().gl.xr.getReferenceSpace();
+      if (referenceSpace == null) {
+        return;
+      }
+
       //handle tracked planes
-      const detectedPlanes = (frame as { detectedPlanes?: XRPlaneSet })?.detectedPlanes;
+      const detectedPlanes = (frame as { detectedPlanes?: Set<ExtendedXRPlane> })?.detectedPlanes;
       if (!equalContent(detectedPlanes, trackedPlanes)) {
-        set({ trackedPlanes: detectedPlanes == null ? undefined : Array.from(detectedPlanes) });
+        const trackedPlanes = detectedPlanes == null ? undefined : Array.from(detectedPlanes);
+        if (trackedPlanes != null) {
+          for (const trackedPlane of trackedPlanes) {
+            trackedPlane.initialPose = frame?.getPose(trackedPlane.planeSpace, referenceSpace);
+          }
+        }
+        set({ trackedPlanes });
       }
 
       //handle tracked meshes
-      const detectedMeshes = (frame as { detectedMeshes?: XRMeshSet })?.detectedMeshes;
+      const detectedMeshes = (frame as { detectedMeshes?: Set<ExtendedXRMesh> })?.detectedMeshes;
       if (!equalContent(detectedMeshes, trackedMeshes)) {
-        set({ trackedMeshes: detectedMeshes == null ? undefined : Array.from(detectedMeshes) });
+        const trackedMeshes = detectedMeshes == null ? undefined : Array.from(detectedMeshes);
+        if (trackedMeshes != null) {
+          for (const trackedMesh of trackedMeshes) {
+            trackedMesh.initialPose = frame?.getPose(trackedMesh.meshSpace, referenceSpace);
+          }
+        }
+        set({ trackedMeshes });
       }
 
       //handle tracked images
@@ -109,6 +130,7 @@ export const useXR = create(
             frame.getImageTrackingResults as () => ReadonlyArray<XRImageTrackingResult>
           )();
           for (const result of results) {
+            result.initialPose = frame.getPose(result.imageSpace, referenceSpace);
             trackedImages.set(result.index, result);
           }
         }
