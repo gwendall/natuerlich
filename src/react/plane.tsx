@@ -18,7 +18,7 @@ export function useInitRoomCapture(): (() => Promise<undefined>) | undefined {
 /**
  * @returns the planes that are currently tracked by webxr
  */
-export function useTrackedPlanes(): ReadonlyArray<XRPlane> | undefined {
+export function useTrackedPlanes(): ReadonlyArray<ExtendedXRPlane> | undefined {
   return useXR((state) => state.trackedPlanes);
 }
 
@@ -33,7 +33,7 @@ export function useTrackedObjectPlanes(
     | "window"
     | "other"
     | string,
-): ReadonlyArray<XRPlane> | undefined {
+): ReadonlyArray<ExtendedXRPlane> | undefined {
   return useXR(
     (state) =>
       state.trackedPlanes?.filter(

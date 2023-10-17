@@ -10,7 +10,7 @@ import { shallow } from "zustand/shallow";
 /**
  * @returns the meshes that are currently tracked by webxr
  */
-export function useTrackedMeshes(): ReadonlyArray<XRMesh> | undefined {
+export function useTrackedMeshes(): ReadonlyArray<ExtendedXRMesh> | undefined {
   return useXR((state) => state.trackedMeshes);
 }
 
@@ -25,7 +25,7 @@ export function useTrackedObjectMeshes(
     | "window"
     | "other"
     | string,
-): ReadonlyArray<XRMesh> | undefined {
+): ReadonlyArray<ExtendedXRMesh> | undefined {
   return useXR(
     (state) => state.trackedMeshes?.filter((mesh) => mesh.semanticLabel === semanticLabel),
     shallow,
