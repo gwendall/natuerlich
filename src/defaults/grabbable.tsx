@@ -1,7 +1,7 @@
 import { isXIntersection } from "@coconut-xr/xinteraction";
-import { GroupProps, useFrame } from "@react-three/fiber";
-import React, { useRef, useMemo, useCallback, ReactNode } from "react";
-import { Vector3, Quaternion, Group } from "three";
+import { GroupProps, ThreeEvent, useFrame, createPortal, useThree } from "@react-three/fiber";
+import React, { useMemo, useCallback, ReactNode, useEffect } from "react";
+import { Vector3, Quaternion, Object3D } from "three";
 
 const pointOffsetPosition = new Vector3();
 const deltaRotation = new Quaternion();
@@ -13,7 +13,8 @@ const currentInputDeviceOffset = new Vector3();
  * component to make objects (its children) grabbable by one or two input sources (hands, controller, mouses, or via touch)
  */
 export function Grabbable({ children, ...props }: { children?: ReactNode } & GroupProps) {
-  const ref = useRef<Group>(null);
+  const object = useMemo(() => new Object3D(), []);
+  const attachPoint = useMemo(() => new Object3D(), []);
 
   const state = useMemo<{
     objectPosition: Vector3;
@@ -39,9 +40,6 @@ export function Grabbable({ children, ...props }: { children?: ReactNode } & Gro
   );
 
   useFrame(() => {
-    if (ref.current == null) {
-      return;
-    }
     switch (state.intersections.size) {
       case 1: {
         const [{ currentPosition, currentRotation, startPosition, startRotation }] =
@@ -54,15 +52,15 @@ export function Grabbable({ children, ...props }: { children?: ReactNode } & Gro
         //calculate new position using the offset from the initial intersection point to the object
         //then rotating this offset by the rotation offset of the input source
         //and lastly add the initial position of the box
-        ref.current.position
+        object.position
           .copy(pointOffsetPosition)
           .applyQuaternion(deltaRotation)
           .add(currentPosition);
 
         //calculating the new rotation by applying the offset rotation of the input source to the original rotation of the box
-        ref.current.quaternion.copy(deltaRotation).multiply(state.objectRotation); //1. object rotation then add deltaRotation
+        object.quaternion.copy(deltaRotation).multiply(state.objectRotation); //1. object rotation then add deltaRotation
 
-        ref.current.scale.copy(state.objectScale);
+        object.scale.copy(state.objectScale);
         break;
       }
       case 2: {
@@ -84,77 +82,91 @@ export function Grabbable({ children, ...props }: { children?: ReactNode } & Gro
         //compute quaternion
         deltaRotation.setFromUnitVectors(initialInputDeviceOffset, currentInputDeviceOffset);
 
-        ref.current.position
+        object.position
           .copy(state.objectPosition)
           .sub(i1.startPosition)
           .multiplyScalar(deltaScale)
           .applyQuaternion(deltaRotation)
           .add(i1.currentPosition);
 
-        ref.current.quaternion.copy(deltaRotation).multiply(state.objectRotation);
+        object.quaternion.copy(deltaRotation).multiply(state.objectRotation);
 
-        ref.current.scale.copy(state.objectScale).multiplyScalar(deltaScale);
+        object.scale.copy(state.objectScale).multiplyScalar(deltaScale);
         break;
       }
     }
   });
 
+  const scene = useThree(({ scene }) => scene);
+
   const updateObjectMatrix = useCallback(() => {
-    if (ref.current == null) {
-      return;
-    }
-    state.objectPosition.copy(ref.current.position);
-    state.objectRotation.copy(ref.current.quaternion);
-    state.objectScale.copy(ref.current.scale);
+    object.updateWorldMatrix(true, false);
+    object.matrixWorld.decompose(state.objectPosition, state.objectRotation, state.objectScale);
     for (const intersection of state.intersections.values()) {
       intersection.startPosition = intersection.currentPosition;
       intersection.startRotation = intersection.currentRotation;
     }
   }, []);
 
+  const onUpOrLeave = useCallback(
+    (e: ThreeEvent<PointerEvent>) => {
+      e.stopPropagation();
+      state.intersections.delete(e.pointerId);
+      if (state.intersections.size > 0) {
+        updateObjectMatrix();
+        return;
+      }
+      //not grabbed anymore, attach to normal three tree
+      attachPoint.attach(object);
+    },
+    [scene],
+  );
+
+  useEffect(() => void attachPoint.add(object), []);
+
   return (
-    <group
-      onPointerDown={(e) => {
-        if (!isXIntersection(e)) {
-          return;
-        }
-        e.stopPropagation();
-        (e.target as HTMLElement).setPointerCapture(e.pointerId);
-        updateObjectMatrix();
-        state.intersections.set(e.pointerId, {
-          startPosition: e.point,
-          currentPosition: e.point,
-          startRotation: e.inputDeviceRotation,
-          currentRotation: e.inputDeviceRotation,
-        });
-      }}
-      onPointerEnter={(e) => {
-        e.stopPropagation();
-      }}
-      onPointerUp={(e) => {
-        state.intersections.delete(e.pointerId);
-        updateObjectMatrix();
-      }}
-      onPointerLeave={(e) => {
-        e.stopPropagation();
-        state.intersections.delete(e.pointerId);
-        updateObjectMatrix();
-      }}
-      onPointerMove={(e) => {
-        if (!isXIntersection(e)) {
-          return;
-        }
-        const intersection = state.intersections.get(e.pointerId);
-        if (intersection == null) {
-          return;
-        }
-        intersection.currentPosition = e.point;
-        intersection.currentRotation = e.inputDeviceRotation;
-      }}
-      ref={ref}
-      {...props}
-    >
-      {children}
-    </group>
+    <>
+      <primitive object={attachPoint} />
+      {createPortal(
+        <group
+          onPointerDown={(e) => {
+            if (!isXIntersection(e)) {
+              return;
+            }
+            e.stopPropagation();
+            (e.target as HTMLElement).setPointerCapture(e.pointerId);
+            updateObjectMatrix();
+            state.intersections.set(e.pointerId, {
+              startPosition: e.point,
+              currentPosition: e.point,
+              startRotation: e.inputDeviceRotation,
+              currentRotation: e.inputDeviceRotation,
+            });
+            if (state.intersections.size != 1) {
+              return;
+            }
+            scene.add(object);
+          }}
+          onPointerEnter={(e) => e.stopPropagation()}
+          onPointerUp={onUpOrLeave}
+          onPointerLeave={onUpOrLeave}
+          onPointerMove={(e) => {
+            if (!isXIntersection(e)) {
+              return;
+            }
+            const intersection = state.intersections.get(e.pointerId);
+            if (intersection == null) {
+              return;
+            }
+            intersection.currentPosition = e.point;
+            intersection.currentRotation = e.inputDeviceRotation;
+          }}
+          {...props}
+        >
+          {children}
+        </group>,
+        object,
+      )}
+    </>
   );
 }

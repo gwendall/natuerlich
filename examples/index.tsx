@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 import { useFrame, useLoader } from "@react-three/fiber";
-import { MutableRefObject, Suspense, useCallback, useRef, useState } from "react";
+import { MutableRefObject, ReactNode, Suspense, useCallback, useRef, useState } from "react";
 import {
   SpaceGroup,
   useEnterXR,
@@ -28,7 +28,7 @@ import {
   useTrackedMeshObjects,
   useXR,
 } from "@coconut-xr/natuerlich/react";
-import { BoxGeometry, DoubleSide, PlaneGeometry, TextureLoader, Vector3 } from "three";
+import { BoxGeometry, DoubleSide, Group, PlaneGeometry, TextureLoader, Vector3 } from "three";
 import {
   InputDeviceFunctions,
   XSphereCollider,
@@ -150,6 +150,11 @@ export default function Index() {
         <Suspense>
           <CylinderLayerTexture />
         </Suspense>
+        <Rotate>
+          <Grabbable>
+            <Box />
+          </Grabbable>
+        </Rotate>
         <KoestlichQuadLayer pixelWidth={512} pixelHeight={512} position={[-2, 1, 0]}>
           <Suspense>
             <Koestlich />
@@ -171,6 +176,16 @@ export default function Index() {
       </XRCanvas>
     </>
   );
+}
+
+function Rotate({ children }: { children?: ReactNode }) {
+  const groupRef = useRef<Group>(null);
+  useFrame((_, delta) => {
+    if (groupRef.current != null) {
+      groupRef.current.rotation.y += (Math.PI / 2) * delta;
+    }
+  });
+  return <group ref={groupRef}>{children}</group>;
 }
 
 function TrackedMeshes() {
