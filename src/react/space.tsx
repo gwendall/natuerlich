@@ -29,7 +29,7 @@ export function useApplySpace(
       return;
     }
     applySpace(rootState, delta, frame, object, space, onFrame);
-  });
+  }, -10); //-10 so we render before the normal useFrames (which are at 0)
 }
 
 export function applySpace(

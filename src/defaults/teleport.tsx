@@ -30,7 +30,7 @@ import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 import { clamp } from "three/src/math/MathUtils.js";
 import { SpaceGroup } from "../react/space.js";
 import { DynamicControllerModel } from "../react/controller.js";
-import { CursorBasicMaterial, PositionalAudio } from "./index.js";
+import { CursorBasicMaterial, PositionalAudio, isTouchscreen } from "./index.js";
 import { VisibilityFocusStateGuard } from "../react/index.js";
 
 function emptyFunction() {
@@ -177,7 +177,11 @@ export function TeleportHand({
           <PositionalAudio url={teleportSoundUrl} volume={teleportSoundVolume} ref={sound} />
         </Suspense>
         {show && (
-          <TeleportPointer {...pointerProps} currentIntersectionRef={currentIntersectionRef} />
+          <TeleportPointer
+            inputSource={inputSource}
+            {...pointerProps}
+            currentIntersectionRef={currentIntersectionRef}
+          />
         )}
       </group>
     </VisibilityFocusStateGuard>
@@ -288,7 +292,11 @@ export function TeleportController({
           <PositionalAudio url={teleportSoundUrl} volume={teleportSoundVolume} ref={sound} />
         </Suspense>
         {show && (
-          <TeleportPointer {...pointerProps} currentIntersectionRef={currentIntersectionRef} />
+          <TeleportPointer
+            inputSource={inputSource}
+            {...pointerProps}
+            currentIntersectionRef={currentIntersectionRef}
+          />
         )}
       </group>
     </VisibilityFocusStateGuard>
@@ -304,7 +312,9 @@ export function TeleportPointer({
   cursorColor = "blue",
   cursorSize = 0.3,
   cursorOpacity = 1.0,
+  inputSource,
 }: {
+  inputSource: XRInputSource;
   rayColor?: ColorRepresentation;
   rayOpacity?: number;
   raySize?: number;
@@ -315,6 +325,7 @@ export function TeleportPointer({
   cursorSize?: number;
   id: number;
 }) {
+  const touchscreen = isTouchscreen(inputSource);
   const cursorRef = useRef<Mesh>(null);
 
   const rayMaterial = useMemo(
@@ -390,6 +401,7 @@ export function TeleportPointer({
         points={points}
         onIntersections={onIntersections}
         filterIntersections={filterIntersections}
+        initialPressedElementIds={touchscreen ? [0] : undefined}
         id={id}
       />
       <mesh geometry={rayGeometry} material={rayMaterial} />

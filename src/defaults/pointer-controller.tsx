@@ -21,6 +21,7 @@ import {
   updateCursorTransformation,
   updateRayTransformation,
   PositionalAudio,
+  isTouchscreen,
 } from "./index.js";
 import { ThreeEvent, createPortal, useFrame, useThree } from "@react-three/fiber";
 import { VisibilityFocusStateGuard, useXRGamepadReader } from "../react/index.js";
@@ -77,6 +78,7 @@ export function PointerController({
   scrollSpeed?: number | null;
 }) {
   const sound = useRef<PositionalAudioImpl>(null);
+  const touchscreen = isTouchscreen(inputSource);
 
   const pointerRef = useRef<InputDeviceFunctions>(null);
   const pressedRef = useRef(false);
@@ -106,7 +108,12 @@ export function PointerController({
     [],
   );
   cursorMaterial.opacity = cursorOpacity;
-  updatePointerColor(pressedRef.current, cursorMaterial, cursorColor, cursorPressColor);
+  updatePointerColor(
+    pressedRef.current || touchscreen,
+    cursorMaterial,
+    cursorColor,
+    cursorPressColor,
+  );
 
   const rayMaterial = useMemo(
     () => new RayBasicMaterial({ transparent: true, toneMapped: false }),
@@ -122,7 +129,12 @@ export function PointerController({
         sound.current.play();
       }
       pressedRef.current = true;
-      updatePointerColor(pressedRef.current, cursorMaterial, cursorColor, cursorPressColor);
+      updatePointerColor(
+        pressedRef.current || touchscreen,
+        cursorMaterial,
+        cursorColor,
+        cursorPressColor,
+      );
       updatePointerColor(pressedRef.current, rayMaterial, rayColor, rayPressColor);
       pointerRef.current?.press(0, e);
     },
@@ -159,6 +171,7 @@ export function PointerController({
             updateRayTransformation(intersections, rayMaxLength, rayRef);
             triggerVibration(intersections, inputSource, prevIntersected);
           }}
+          initialPressedElementIds={touchscreen ? [0] : undefined}
           id={id}
           direction={negZAxis}
           ref={pointerRef}
@@ -166,7 +179,7 @@ export function PointerController({
           {...rest}
         />
         <mesh
-          visible={rayVisibile}
+          visible={rayVisibile && !touchscreen}
           scale-x={raySize}
           scale-y={raySize}
           material={rayMaterial}

@@ -35,6 +35,10 @@ const ZAXIS = new Vector3(0, 0, 1);
 const quaternionHelper = new Quaternion();
 const offsetHelper = new Vector3();
 
+export function isTouchscreen(inputSource: XRInputSource): boolean {
+  return inputSource.profiles.includes("generic-touchscreen");
+}
+
 export function updateCursorTransformation(
   inputSource: XRInputSource,
   intersections: ReadonlyArray<XIntersection>,

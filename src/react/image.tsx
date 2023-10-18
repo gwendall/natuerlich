@@ -46,7 +46,7 @@ export const TrackedImage = forwardRef<
       return;
     }
     applySpace(state, delta, frame, group, space, onFrame);
-  });
+  }, -10); //-10 so that we compute the space position before everybody else in the tree
   useImperativeHandle(ref, () => group, []);
   if (imageIndex == null) {
     return null;
