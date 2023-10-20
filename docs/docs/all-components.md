@@ -50,7 +50,7 @@ The `GrabController` and `GrabHand` components control the action of grabbing ob
 
 #### `Grabbable`
 
-The `Grabbable` component is a wrapper that allows its children objects to be interactively grabbed by an input source such as hands, controllers, mice, or touch input. The objects within the Grabbable component become interactively movable in the 3D scene.
+The `Grabbable` component is a wrapper that allows its children objects to be interactively grabbed by an input source such as hands, controllers, mice, or touch input. The objects within the Grabbable component become interactively movable in the 3D scene. The properties `onGrabbed`,`onReleased`, and `maxGrabber` are available. The `maxGrabber` property defines the maximum number of hands/controllers/touch-pointers/... that this grabbable can be touched by (reasonable values are 1,2).
 
 ### `PointerController` and `PointerHand`
 

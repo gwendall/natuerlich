@@ -50,6 +50,10 @@ This hook returns a readonly array of currently tracked planes (`XRPlane`).
 
 This hook returns a readonly array of currently tracked planes (`XRPlane`) with a specific semantic label.
 
+## `useTrackedPlaneGeometry`
+
+This hook returns the geometry for a `XRPlane`. The parameter `disposeBuffer` specifies whether the buffers should be automatically cleaned up (default: true).
+
 
 ## `useTrackedMeshes`
 
@@ -59,6 +63,10 @@ This hook returns a readonly array of currently tracked meshes (`XRMesh`).
 ## `useTrackedMeshObjects`
 
 This hook returns a readonly array of currently tracked mesh (`XRMesh`) with a specific semantic label.
+
+## `useTrackedMeshGeometry`
+
+This hook returns the geometry for a `XRMesh`. The parameter `disposeBuffer` specifies whether the buffers should be automatically cleaned up (default: true).
 
 ## `useHandPoses`
 

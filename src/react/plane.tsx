@@ -22,6 +22,9 @@ export function useTrackedPlanes(): ReadonlyArray<ExtendedXRPlane> | undefined {
   return useXR((state) => state.trackedPlanes);
 }
 
+/**
+ * @returns the planes tracked by webxr with the specified @param semanticLabel
+ */
 export function useTrackedObjectPlanes(
   semanticLabel:
     | "desk"
@@ -35,10 +38,7 @@ export function useTrackedObjectPlanes(
     | string,
 ): ReadonlyArray<ExtendedXRPlane> | undefined {
   return useXR(
-    (state) =>
-      state.trackedPlanes?.filter(
-        (plane: { semanticLabel?: string } & XRPlane) => plane.semanticLabel === semanticLabel,
-      ),
+    (state) => state.trackedPlanes?.filter((plane) => plane.semanticLabel === semanticLabel),
     shallow,
   );
 }
@@ -68,14 +68,16 @@ function updateGeometry(
   geometry: BufferGeometry | undefined,
   lastUpdateRef: { current?: number },
   plane: XRPlane,
-): BufferGeometry | undefined {
-  if (lastUpdateRef.current != null && lastUpdateRef.current >= plane.lastChangedTime) {
+): BufferGeometry {
+  if (
+    geometry != null &&
+    lastUpdateRef.current != null &&
+    lastUpdateRef.current >= plane.lastChangedTime
+  ) {
     return geometry;
   }
-  geometry?.dispose();
-  geometry = createGeometryFromPolygon(plane.polygon);
   lastUpdateRef.current = plane.lastChangedTime;
-  return geometry;
+  return createGeometryFromPolygon(plane.polygon);
 }
 
 /**
@@ -113,18 +115,33 @@ export function measureXRPlane(plane: XRPlane, target: Box3): Box3 {
 }
 
 /**
+ * @returns the geometry for a webxr plane
+ * @param disposeBuffer specifies whether the buffers should be automatically cleaned up (default: true)
+ */
+export function useTrackedPlaneGeometry(plane: XRPlane, disposeBuffer = true): BufferGeometry {
+  const lastUpdateRef = useRef<number | undefined>(undefined);
+  const [geometry, setGeometry] = useState<BufferGeometry>(
+    updateGeometry(undefined, lastUpdateRef, plane),
+  );
+  useFrame(() => setGeometry((geometry) => updateGeometry(geometry, lastUpdateRef, plane)));
+  useEffect(() => {
+    if (!disposeBuffer) {
+      return;
+    }
+    return () => geometry?.dispose();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [geometry]);
+  return geometry;
+}
+
+/**
  * component for rendering the geometry of a tracked webxr plane
  * Should be used together with a SpaceGroup
  */
 export const TrackedPlaneGeometry = forwardRef<BufferGeometry, { plane: XRPlane }>(
   ({ plane }, ref) => {
-    const lastUpdateRef = useRef<number | undefined>(undefined);
-    const [geometry, setGeometry] = useState<BufferGeometry | undefined>(
-      updateGeometry(undefined, lastUpdateRef, plane),
-    );
-    useFrame(() => setGeometry((geometry) => updateGeometry(geometry, lastUpdateRef, plane)));
-    useEffect(() => geometry?.dispose(), []);
-    useImperativeHandle(ref, () => geometry!, [geometry]);
-    return geometry != null ? <primitive object={geometry} /> : null;
+    const geometry = useTrackedPlaneGeometry(plane);
+    useImperativeHandle(ref, () => geometry, [geometry]);
+    return <primitive object={geometry} />;
   },
 );

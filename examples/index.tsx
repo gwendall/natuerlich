@@ -151,7 +151,7 @@ export default function Index() {
           <CylinderLayerTexture />
         </Suspense>
         <Rotate>
-          <Grabbable>
+          <Grabbable maxGrabbers={1}>
             <Box />
           </Grabbable>
         </Rotate>

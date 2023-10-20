@@ -14,6 +14,9 @@ export function useTrackedMeshes(): ReadonlyArray<ExtendedXRMesh> | undefined {
   return useXR((state) => state.trackedMeshes);
 }
 
+/**
+ * @returns the meshes tracked by webxr with the specified @param semanticLabel
+ */
 export function useTrackedObjectMeshes(
   semanticLabel:
     | "desk"
@@ -36,16 +39,19 @@ function updateGeometry(
   geometry: BufferGeometry | undefined,
   lastUpdateRef: { current?: number },
   mesh: XRMesh,
-): BufferGeometry | undefined {
-  if (lastUpdateRef.current != null && lastUpdateRef.current >= mesh.lastChangedTime) {
+): BufferGeometry {
+  if (
+    geometry != null &&
+    lastUpdateRef.current != null &&
+    lastUpdateRef.current >= mesh.lastChangedTime
+  ) {
     return geometry;
   }
-  geometry?.dispose();
-  geometry = new BufferGeometry();
-  geometry.setIndex(new BufferAttribute(mesh.indices, 1));
-  geometry.setAttribute("position", new BufferAttribute(mesh.vertices, 3));
   lastUpdateRef.current = mesh.lastChangedTime;
-  return geometry;
+  const newGeometry = new BufferGeometry();
+  newGeometry.setIndex(new BufferAttribute(mesh.indices, 1));
+  newGeometry.setAttribute("position", new BufferAttribute(mesh.vertices, 3));
+  return newGeometry;
 }
 
 /**
@@ -85,18 +91,31 @@ export function measureXRMesh(mesh: XRMesh, target: Box3): Box3 {
 }
 
 /**
+ * @returns the geometry for a webxr mesh
+ * @param disposeBuffer specifies whether the buffers should be automatically cleaned up (default: true)
+ */
+export function useTrackedMeshGeometry(mesh: XRMesh, disposeBuffer = true): BufferGeometry {
+  const lastUpdateRef = useRef<number | undefined>(undefined);
+  const [geometry, setGeometry] = useState<BufferGeometry>(
+    updateGeometry(undefined, lastUpdateRef, mesh),
+  );
+  useFrame(() => setGeometry((geometry) => updateGeometry(geometry, lastUpdateRef, mesh)));
+  useEffect(() => {
+    if (!disposeBuffer) {
+      return;
+    }
+    return () => geometry.dispose();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [geometry]);
+  return geometry;
+}
+
+/**
  * component for rendering the geometry of a tracked webxr mesh
  * Should be used together with a SpaceGroup
  */
-export const TrackedMeshGeometry = forwardRef<BufferGeometry, { mesh: ExtendedXRMesh }>(
-  ({ mesh }, ref) => {
-    const lastUpdateRef = useRef<number | undefined>(undefined);
-    const [geometry, setGeometry] = useState<BufferGeometry | undefined>(
-      updateGeometry(undefined, lastUpdateRef, mesh),
-    );
-    useFrame(() => setGeometry((geometry) => updateGeometry(geometry, lastUpdateRef, mesh)));
-    useEffect(() => geometry?.dispose(), []);
-    useImperativeHandle(ref, () => geometry!, []);
-    return geometry != null ? <primitive object={geometry} /> : null;
-  },
-);
+export const TrackedMeshGeometry = forwardRef<BufferGeometry, { mesh: XRMesh }>(({ mesh }, ref) => {
+  const geometry = useTrackedMeshGeometry(mesh);
+  useImperativeHandle(ref, () => geometry, []);
+  return <primitive object={geometry} />;
+});

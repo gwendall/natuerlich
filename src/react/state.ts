@@ -27,8 +27,8 @@ export type TrackedImagesMap = Map<number, XRImageTrackingResult>;
 
 export type ExtendedXRSessionMode = XRState["mode"];
 
-export type ExtendedXRPlane = XRPlane & { initialPose?: XRPose };
-export type ExtendedXRMesh = XRMesh & { initialPose?: XRPose };
+export type ExtendedXRPlane = XRPlane & { semanticLabel?: string; initialPose?: XRPose };
+export type ExtendedXRMesh = XRMesh & { semanticLabel?: string; initialPose?: XRPose };
 
 export type XRState = (
   | {
