@@ -8,12 +8,12 @@ import React, {
   useLayoutEffect,
 } from "react";
 import { Object3D, OrthographicCamera } from "three";
-import { QuadLayer, QuadLayerPortal } from "../react/index.js";
+import { CylinderLayer, CylinderLayerPortal, QuadLayer, QuadLayerPortal } from "../react/index.js";
 import { RootContainer } from "@coconut-xr/koestlich";
 import { useStore } from "@react-three/fiber";
 
 /**
- * combines WebXR layers with a Koestlich root container
+ * combines WebXR quad layer with a Koestlich root container
  */
 export const KoestlichQuadLayer = forwardRef<
   Object3D,
@@ -40,6 +40,37 @@ export const KoestlichQuadLayer = forwardRef<
         {children}
       </RootContainer>
     </QuadLayerPortal>
+  );
+});
+
+/**
+ * combines WebXR cylinder layer with a Koestlich root container
+ */
+export const KoestlichCylinderLayer = forwardRef<
+  Object3D,
+  Omit<ComponentPropsWithoutRef<typeof CylinderLayer>, "updateTarget" | "texture"> & {
+    far?: number;
+    near?: number;
+    precision?: number;
+  }
+>(({ children, far, near, precision, ...props }, ref) => {
+  return (
+    <CylinderLayerPortal {...props} ref={ref}>
+      <KoestlichFullscreenCamera
+        width={props.pixelWidth}
+        height={props.pixelHeight}
+        far={far}
+        near={near}
+      />
+      <RootContainer
+        sizeX={props.pixelWidth}
+        sizeY={props.pixelHeight}
+        pixelSize={1}
+        precision={precision}
+      >
+        {children}
+      </RootContainer>
+    </CylinderLayerPortal>
   );
 });
 
