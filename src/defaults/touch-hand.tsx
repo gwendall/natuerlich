@@ -16,7 +16,7 @@ import {
   updateCursorTransformation,
   PositionalAudio,
 } from "./index.js";
-import { VisibilityFocusStateGuard } from "../react/index.js";
+import { FocusStateGuard } from "../react/index.js";
 
 /**
  * hand for touch objects based on their distance to the index finger
@@ -86,7 +86,7 @@ export function TouchHand({
   );
 
   return (
-    <VisibilityFocusStateGuard>
+    <FocusStateGuard>
       <Suspense>
         <DynamicHandModel hand={hand} handedness={inputSource.handedness}>
           <HandBoneGroup joint={"index-finger-tip"}>
@@ -134,7 +134,7 @@ export function TouchHand({
         </mesh>,
         scene,
       )}
-    </VisibilityFocusStateGuard>
+    </FocusStateGuard>
   );
 }
 

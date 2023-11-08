@@ -24,7 +24,7 @@ import {
   isTouchscreen,
 } from "./index.js";
 import { ThreeEvent, createPortal, useFrame, useThree } from "@react-three/fiber";
-import { VisibilityFocusStateGuard, useXRGamepadReader } from "../react/index.js";
+import { FocusStateGuard, useXRGamepadReader } from "../react/index.js";
 
 const negZAxis = new Vector3(0, 0, -1);
 
@@ -155,7 +155,7 @@ export function PointerController({
   const scene = useThree(({ scene }) => scene);
 
   return (
-    <VisibilityFocusStateGuard>
+    <FocusStateGuard>
       {inputSource.gripSpace != null && (
         <SpaceGroup space={inputSource.gripSpace}>
           {children}
@@ -204,6 +204,6 @@ export function PointerController({
         </mesh>,
         scene,
       )}
-    </VisibilityFocusStateGuard>
+    </FocusStateGuard>
   );
 }

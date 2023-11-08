@@ -3,7 +3,7 @@ import { InputDeviceFunctions, XSphereCollider } from "@coconut-xr/xinteraction/
 import React, { useRef, useMemo, Suspense, ReactNode } from "react";
 import { ColorRepresentation, Mesh, Event, PositionalAudio as PositionalAudioImpl } from "three";
 import { DynamicControllerModel } from "../react/controller.js";
-import { VisibilityFocusStateGuard, useInputSourceEvent } from "../react/index.js";
+import { FocusStateGuard, useInputSourceEvent } from "../react/index.js";
 import { SpaceGroup } from "../react/space.js";
 import {
   CursorBasicMaterial,
@@ -105,7 +105,7 @@ export function GrabController({
   }
 
   return (
-    <VisibilityFocusStateGuard>
+    <FocusStateGuard>
       <SpaceGroup space={inputSource.gripSpace}>
         <XSphereCollider
           id={id}
@@ -150,6 +150,6 @@ export function GrabController({
         </mesh>,
         scene,
       )}
-    </VisibilityFocusStateGuard>
+    </FocusStateGuard>
   );
 }

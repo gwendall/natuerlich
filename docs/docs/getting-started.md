@@ -205,7 +205,7 @@ export default function Index() {
         <NonImmersiveCamera position={[0, 1.5, 4]} />
         <ImmersiveSessionOrigin position={[0, 0, 4]}>
           <Hands type="pointer" />
-          <Pointers type="grab" />
+          <Controllers type="grab" />
         </ImmersiveSessionOrigin>
       </XRCanvas>
     </div>
