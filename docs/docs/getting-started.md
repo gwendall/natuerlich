@@ -175,7 +175,7 @@ When using hands inside a WebXR session, the `"hand-tracking"` feature needs to 
 import {
   XRCanvas,
   Hands,
-  Pointers,
+  Controllers,
   Grabbable
 } from "@coconut-xr/natuerlich/defaults";
 import {
