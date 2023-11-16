@@ -23,7 +23,7 @@ import {
   PositionalAudio as PositionalAudioImpl,
 } from "three";
 import { useInputSourceEvent } from "../react/listeners.js";
-import { DynamicHandModel } from "../react/hand.js";
+import { DynamicHandModel, HandBoneGroup } from "../react/hand.js";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
@@ -100,6 +100,7 @@ export function TeleportHand({
   onTeleport,
   teleportSoundUrl = "https://coconut-xr.github.io/xsounds/plop.mp3",
   teleportSoundVolume = 0.3,
+  childrenAtJoint = "wrist",
   ...pointerProps
 }: {
   hand: XRHand;
@@ -112,6 +113,7 @@ export function TeleportHand({
   cursorColor?: ColorRepresentation;
   cursorSize?: number;
   cursorOpacity?: number;
+  childrenAtJoint?: XRHandJoint;
   onTeleport?: (point: Vector3) => void;
   filterIntersections?: (intersections: any[]) => any[]; //TODO
   teleportSoundUrl?: string;
@@ -169,7 +171,7 @@ export function TeleportHand({
     <FocusStateGuard>
       <Suspense fallback={null}>
         <DynamicHandModel ref={handRef} hand={hand} handedness={inputSource.handedness}>
-          {children}
+          {children != null && <HandBoneGroup joint={childrenAtJoint}>{children}</HandBoneGroup>}
         </DynamicHandModel>
       </Suspense>
       <group ref={groupRef}>
