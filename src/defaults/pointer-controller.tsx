@@ -89,10 +89,11 @@ export function PointerController({
   const reader = useXRGamepadReader(inputSource);
 
   useFrame((_, delta) => {
-    if (scrollSpeed === null ?? pointerRef.current == null) {
-      return;
-    }
-    if (!reader.readAxes("xr-standard-thumbstick", vec2Helper)) {
+    if (
+      scrollSpeed === null ||
+      pointerRef.current == null ||
+      !reader.readAxes("xr-standard-thumbstick", vec2Helper)
+    ) {
       return;
     }
     const speed = scrollSpeed ?? 300;
