@@ -179,6 +179,9 @@ export function bindMotionControllerToObject(
 }
 
 export function updateMotionController(motionController: MotionController) {
+  if ((motionController.xrInputSource as XRInputSource).gamepad == null) {
+    return;
+  }
   // Cause the MotionController to poll the Gamepad for data
   motionController.updateFromGamepad();
 
