@@ -42,7 +42,10 @@ function setupGrabbable(
     object,
     onUpOrLeave: (e: ThreeEvent<PointerEvent>) => {
       e.stopPropagation();
-      state.intersections.delete(e.pointerId);
+      if (!state.intersections.delete(e.pointerId)) {
+        //just left without grabbing
+        return;
+      }
       if (state.intersections.size > 0) {
         updateObjectMatrix();
         return;
