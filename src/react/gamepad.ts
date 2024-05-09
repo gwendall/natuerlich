@@ -36,7 +36,7 @@ export const useXRGamepadReader = (
         return;
       }
 
-      return gamepad.buttons[gamepadIndices.button];
+      return gamepad.buttons?.[gamepadIndices.button];
     },
     [inputSource.gamepad, profileComponents],
   );
